@@ -2,7 +2,8 @@
 
 
 #include "InventoryComponent.h"
-#include "InventoryWindow.h"
+#include "InventoryPanel.h"
+#include "EquipmentScreen.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -29,10 +30,9 @@ void UInventoryComponent::BeginPlay()
 	
 	Inventory.Init(NullItem, NumberOfSlots);
 
-	if (InventoryWindow_ref != NULL && GetWorld())
+	if (EquipmentScreen_Ref != NULL && GetWorld())
 	{
-		InventoryWindow = CreateWidget<UInventoryWindow>(GetWorld(), InventoryWindow_ref);
-		InventoryWindow->InitWidget(this);
+		EquipmentScreen = CreateWidget<UEquipmentScreen>(GetWorld(), EquipmentScreen_Ref);
 	}
 	
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -132,25 +132,47 @@ void UInventoryComponent::RemoveFromInventory(FInventoryData ItemToRemove)
 
 void UInventoryComponent::ToggleInventory()
 {
-	if (InventoryWindow != NULL && PlayerController)
+//	if (InventoryWindow != NULL && PlayerController)
+//	{
+//		if (InventoryWindow->IsInViewport())
+//		{
+//			InventoryWindow->RemoveFromViewport();
+//			PlayerController->SetInputMode(FInputModeGameOnly());
+//			PlayerController->bShowMouseCursor = false;
+//
+//			return;
+//		}
+//
+//		InventoryWindow->Refresh();
+//		InventoryWindow->AddToViewport();
+//
+//		PlayerController->SetInputMode(FInputModeUIOnly());
+//		PlayerController->bShowMouseCursor = true;
+//		return;
+//	}
+
+}
+
+void UInventoryComponent::ToggleEquipmet()
+{
+	if (EquipmentScreen != NULL && PlayerController)
 	{
-		if (InventoryWindow->IsInViewport())
+		if (EquipmentScreen->IsInViewport())
 		{
-			InventoryWindow->RemoveFromViewport();
+			EquipmentScreen->RemoveFromViewport();
 			PlayerController->SetInputMode(FInputModeGameOnly());
 			PlayerController->bShowMouseCursor = false;
 
 			return;
 		}
 
-		InventoryWindow->Refresh();
-		InventoryWindow->AddToViewport();
+		//EquipmentScreen->Refresh();
+		EquipmentScreen->AddToViewport();
 
 		PlayerController->SetInputMode(FInputModeUIOnly());
 		PlayerController->bShowMouseCursor = true;
 		return;
 	}
-
 }
 
 void UInventoryComponent::SetInventorySize(int InvnSize)

@@ -55,6 +55,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
 
+	UFUNCTION(BlueprintCallable)
+		void ToggleEquipmet();
+
 	void SetInventorySize(int InvnSize);
 	int GetInventorySize() const;
 
@@ -68,15 +71,18 @@ protected:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<FInventoryData> Inventory;
 
+	UPROPERTY(BlueprintReadWrite)
+	TMap<TEnumAsByte<EquipmentType>, FItemData> EquipedItems;
+
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
 		int NumberOfSlots;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		TSubclassOf<class UInventoryWindow> InventoryWindow_ref;
+		TSubclassOf<class UEquipmentScreen> EquipmentScreen_Ref;
 
 	// Variable to hold the widget After Creating it.
 	UPROPERTY()
-		class UInventoryWindow* InventoryWindow;
+		class UEquipmentScreen* EquipmentScreen;
 
 	UPROPERTY()
 	FInventoryData NullItem;

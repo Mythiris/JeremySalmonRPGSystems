@@ -10,10 +10,20 @@ enum ItemType
 {
 	Misc,
 	Armor,
-	Weapon,
 	Crafting,
 	Quest,
 	Consumable
+};
+
+UENUM()
+enum EquipmentType
+{
+	Head,
+	Chest,
+	Arms,
+	Legs,
+	Feet,
+	Weapon,
 };
 
 USTRUCT(BlueprintType)
