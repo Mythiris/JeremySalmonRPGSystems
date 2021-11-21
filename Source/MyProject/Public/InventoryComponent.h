@@ -63,6 +63,8 @@ public:
 
 	FInventoryData GetInventoryData(int Index);
 
+	void DisplayEquipment(TEnumAsByte<EquipmentType> EquipmentType);
+
 protected:
 
 	// Called when the game starts

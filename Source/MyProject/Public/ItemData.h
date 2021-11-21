@@ -9,7 +9,7 @@ UENUM()
 enum ItemType
 {
 	Misc,
-	Armor,
+	Equipment,
 	Crafting,
 	Quest,
 	Consumable

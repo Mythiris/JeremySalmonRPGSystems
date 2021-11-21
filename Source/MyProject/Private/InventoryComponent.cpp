@@ -4,6 +4,7 @@
 #include "InventoryComponent.h"
 #include "InventoryPanel.h"
 #include "EquipmentScreen.h"
+#include "BaseEquipment.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -193,4 +194,15 @@ FInventoryData UInventoryComponent::GetInventoryData(int Index)
 	}
 
 	return(NullItem);
+}
+
+void UInventoryComponent::DisplayEquipment(TEnumAsByte<EquipmentType> EquipmentType)
+{
+	for (int i = 0; i < Inventory.Num(); i++)
+	{
+		if (Inventory[i].ItemData.ItemType == ItemType::Equipment)
+		{
+			ABaseEquipment* Item = Cast<ABaseEquipment>(Inventory[i].ItemData.ItemRef);
+		}
+	}
 }
