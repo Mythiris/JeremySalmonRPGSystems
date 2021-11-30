@@ -27,16 +27,16 @@ public:
 
 	void Refresh();
 
-	UFUNCTION(BlueprintCallable)
-	void ChangeDisplayType(TEnumAsByte<ItemType> _DisplayType);
+	//UFUNCTION(BlueprintCallable)
+	//void ChangeDisplayType(TEnumAsByte<ItemType> _DisplayType);
 
 protected:
 	 
 	UPROPERTY()
 	class UInventoryComponent* Inventory;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		TEnumAsByte<ItemType> DisplayType;
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	//	TEnumAsByte<ItemType> DisplayType;
 
 	UPROPERTY(meta = (BindWidget))
 	class UGridPanel* InventoryGrid;

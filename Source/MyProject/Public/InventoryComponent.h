@@ -63,7 +63,7 @@ public:
 
 	FInventoryData GetInventoryData(int Index);
 
-	void DisplayEquipment(TEnumAsByte<EquipmentType> EquipmentType);
+	//void DisplayEquipment(TEnumAsByte<EquipmentType> EquipmentType);
 
 protected:
 
@@ -73,8 +73,8 @@ protected:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<FInventoryData> Inventory;
 
-	UPROPERTY(BlueprintReadWrite)
-	TMap<TEnumAsByte<EquipmentType>, FItemData> EquipedItems;
+	//UPROPERTY(BlueprintReadWrite)
+	//TMap<TEnumAsByte<EquipmentType>, FItemData> EquipedItems;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
 		int NumberOfSlots;

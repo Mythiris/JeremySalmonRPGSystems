@@ -23,11 +23,11 @@ public:
 	UFUNCTION()
 	void SlotButtonOnClick();
 
-	UFUNCTION()
-		void SetSlotType(TEnumAsByte<EquipmentType> _SlotType);
+	//UFUNCTION()
+	//	void SetSlotType(TEnumAsByte<EquipmentType> _SlotType);
 
-	UFUNCTION()
-		TEnumAsByte<EquipmentType> GetSlotType();
+	//UFUNCTION()
+//		TEnumAsByte<EquipmentType> GetSlotType();
 
 	void SetInventoryRef(UInventoryComponent* _InventoryRef);
 
@@ -39,8 +39,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UImage* ItemThumbnail;
 
-	UPROPERTY()
-	TEnumAsByte<EquipmentType> SlotType;
+	//UPROPERTY()
+//	TEnumAsByte<EquipmentType> SlotType;
 	
 	UPROPERTY()
 	class UInventoryComponent* InventoryRef;

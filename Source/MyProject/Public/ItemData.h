@@ -6,24 +6,37 @@
 #include "ItemData.generated.h"
 
 UENUM()
-enum ItemType
+enum EItemType
 {
 	Misc,
-	Equipment,
+	Armor,
+	Weapon,
 	Crafting,
 	Quest,
 	Consumable
 };
 
 UENUM()
-enum EquipmentType
+enum EArmorSlot
 {
 	Head,
 	Chest,
 	Arms,
 	Legs,
 	Feet,
-	Weapon,
+};
+
+USTRUCT(BlueprintType)
+struct FArmorData
+{
+	GENERATED_BODY()
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<EArmorSlot> ArmorSlot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
+		int ArmorValue;
+
 };
 
 USTRUCT(BlueprintType)
@@ -35,7 +48,7 @@ struct FItemData
 		FString Name;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		TEnumAsByte<ItemType> ItemType;
+		TEnumAsByte<EItemType> ItemType;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		UTexture2D* ThumbNail;
@@ -49,10 +62,13 @@ struct FItemData
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		TSubclassOf<class ABaseItem>  ItemRef;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData", meta = (EditCondition = "ItemType == EItemType::Armor ", EditConditionHides))
+		FArmorData ArmorData;
+
 	FItemData()
 	{
 		Name = "None";
-		ItemType = ItemType::Misc;
+		ItemType = EItemType::Misc;
 		ThumbNail = nullptr;
 		IsStackable = false;
 		MaxStackSize = 0;
