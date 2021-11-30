@@ -15,6 +15,12 @@ void UEquipmentScreen::NativeConstruct()
 	LegSlot->SetSlotType(EArmorSlot::Legs);
 	FeetSlot->SetSlotType(EArmorSlot::Feet);
 
+	HeadSlot->SetIsWindowSlot(true);
+	ChestSlot->SetIsWindowSlot(true);
+	ArmSlot->SetIsWindowSlot(true);
+	LegSlot->SetIsWindowSlot(true);
+	FeetSlot->SetIsWindowSlot(true);
+
 }
 
 void UEquipmentScreen::SetOwnersInventory(UInventoryComponent* _OwnersInventory)

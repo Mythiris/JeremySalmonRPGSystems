@@ -14,6 +14,13 @@ void UEquipmentSlot::NativeConstruct()
 	{
 		SlotButton->OnClicked.AddDynamic(this, &UEquipmentSlot::SlotButtonOnClick);
 	}
+
+	IsWindowSlot = false;
+}
+
+void UEquipmentSlot::SetIsWindowSlot(bool _IsWindowSlot)
+{
+	IsWindowSlot = _IsWindowSlot;
 }
 
 void UEquipmentSlot::InitSlot(int Index, UInventoryComponent* _InventoryRef)
@@ -30,15 +37,17 @@ void UEquipmentSlot::InitSlot(int Index, UInventoryComponent* _InventoryRef)
 
 void UEquipmentSlot::SlotButtonOnClick()
 {
-	
-	if (InventoryRef)
+	if (IsWindowSlot)
 	{
-		if (EquipmentInventory_Ref != NULL && GetWorld())
+		if (InventoryRef)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("ButtonClick"));
-			EquipmentInventory = CreateWidget<UEquipmentInventory>(GetWorld(), EquipmentInventory_Ref);
-			EquipmentInventory->InitWid(InventoryRef, SlotType);
-			EquipmentInventory->AddToViewport();
+			if (EquipmentInventory_Ref != NULL && GetWorld())
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("ButtonClick"));
+				EquipmentInventory = CreateWidget<UEquipmentInventory>(GetWorld(), EquipmentInventory_Ref);
+				EquipmentInventory->InitWid(InventoryRef, SlotType);
+				EquipmentInventory->AddToViewport();
+			}
 		}
 	}
 }

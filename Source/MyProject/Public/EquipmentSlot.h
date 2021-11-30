@@ -34,6 +34,9 @@ public:
 
 	void SetInventoryRef(UInventoryComponent* _InventoryRef);
 
+	UFUNCTION()
+	void SetIsWindowSlot(bool _IsWindowSlot);
+
 private:
 
 	UPROPERTY(meta = (BindWidget))
@@ -44,6 +47,9 @@ private:
 
 	UPROPERTY()
 		TEnumAsByte<EArmorSlot> SlotType;
+
+	UPROPERTY()
+		bool IsWindowSlot;
 	
 	UPROPERTY()
 		class UInventoryComponent* InventoryRef;
