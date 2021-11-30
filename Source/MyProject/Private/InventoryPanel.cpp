@@ -50,22 +50,10 @@ void UInventoryPanel::Refresh()
 		int SlotIndex = 0;
 		for (int i = 0; i < Inventory->GetInventorySize(); i++)
 		{
-			FInventoryData Temp = Inventory->GetInventoryData(i);
-
-			if (Temp.ItemData.ItemType == DisplayType)
-			{
-				InventorySlot[SlotIndex]->SetData(Temp);
-				SlotIndex++;
-			}
+			InventorySlot[SlotIndex]->SetData(Inventory->GetInventoryData(i));
+			SlotIndex++;
 		}
 	}
-}
-
-void UInventoryPanel::ChangeDisplayType(TEnumAsByte<ItemType> _DisplayType)
-{
-	DisplayType = _DisplayType;
-
-	Refresh();
 }
 
 FReply UInventoryPanel::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)

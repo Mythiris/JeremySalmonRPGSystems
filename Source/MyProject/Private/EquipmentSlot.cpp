@@ -3,6 +3,8 @@
 
 #include "EquipmentSlot.h"
 #include "Components/Button.h"
+#include "EquipmentInventory.h"
+#include "Components/Image.h"
 
 void UEquipmentSlot::NativeConstruct()
 {
@@ -14,22 +16,39 @@ void UEquipmentSlot::NativeConstruct()
 	}
 }
 
-void UEquipmentSlot::SlotButtonOnClick()
+void UEquipmentSlot::InitSlot(int Index, UInventoryComponent* _InventoryRef)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("ButtonClick"));
-	
-	if (InventoryRef)
-	{
+	SetInventoryRef(_InventoryRef);
 
+	FInventoryData InvenData = InventoryRef->GetInventoryData(Index);
+
+	if (InvenData.ItemData.ThumbNail)
+	{
+		ItemThumbnail->SetBrushFromTexture(InvenData.ItemData.ThumbNail);
 	}
 }
 
-void UEquipmentSlot::SetSlotType(TEnumAsByte<EquipmentType> _SlotType)
+void UEquipmentSlot::SlotButtonOnClick()
+{
+	
+	if (InventoryRef)
+	{
+		if (EquipmentInventory_Ref != NULL && GetWorld())
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("ButtonClick"));
+			EquipmentInventory = CreateWidget<UEquipmentInventory>(GetWorld(), EquipmentInventory_Ref);
+			EquipmentInventory->InitWid(InventoryRef, SlotType);
+			EquipmentInventory->AddToViewport();
+		}
+	}
+}
+
+void UEquipmentSlot::SetSlotType(TEnumAsByte<EArmorSlot> _SlotType)
 {
 	SlotType = _SlotType;
 }
 
-TEnumAsByte<EquipmentType> UEquipmentSlot::GetSlotType()
+TEnumAsByte<EArmorSlot> UEquipmentSlot::GetSlotType()
 {
 	return(SlotType);
 }

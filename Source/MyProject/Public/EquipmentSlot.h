@@ -21,27 +21,37 @@ public:
 	virtual void NativeConstruct() override;
 
 	UFUNCTION()
-	void SlotButtonOnClick();
+		void InitSlot(int Index, UInventoryComponent* _InventoryRef);
 
-	//UFUNCTION()
-	//	void SetSlotType(TEnumAsByte<EquipmentType> _SlotType);
+	UFUNCTION()
+		void SlotButtonOnClick();
 
-	//UFUNCTION()
-//		TEnumAsByte<EquipmentType> GetSlotType();
+	UFUNCTION()
+		void SetSlotType(TEnumAsByte<EArmorSlot> _SlotType);
+
+	UFUNCTION()
+		TEnumAsByte<EArmorSlot> GetSlotType();
 
 	void SetInventoryRef(UInventoryComponent* _InventoryRef);
 
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* SlotButton;
+		class UButton* SlotButton;
 
 	UPROPERTY(meta = (BindWidget))
-	class UImage* ItemThumbnail;
+		class UImage* ItemThumbnail;
 
-	//UPROPERTY()
-//	TEnumAsByte<EquipmentType> SlotType;
+	UPROPERTY()
+		TEnumAsByte<EArmorSlot> SlotType;
 	
 	UPROPERTY()
-	class UInventoryComponent* InventoryRef;
+		class UInventoryComponent* InventoryRef;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UEquipmentInventory> EquipmentInventory_Ref;
+
+	// Variable to hold the widget After Creating it.
+	UPROPERTY()
+		class UEquipmentInventory* EquipmentInventory;
 };

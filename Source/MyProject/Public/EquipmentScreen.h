@@ -36,9 +36,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 		class UEquipmentSlot* FeetSlot;
 
-	UPROPERTY(meta = (BindWidget))
-		class UEquipmentSlot* WeaponSlot;
-
+	UPROPERTY()
 	class UInventoryComponent* OwnersInventory;
 	
 };
