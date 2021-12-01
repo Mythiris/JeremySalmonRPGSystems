@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryComponent.h"
 #include "ItemData.h"
+#include "EquipmentInventory.h"
 #include "EquipmentSlot.generated.h"
 
 /**
@@ -19,6 +20,9 @@ class MYPROJECT_API UEquipmentSlot : public UUserWidget
 public:
 
 	virtual void NativeConstruct() override;
+
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 
 	UFUNCTION()
 		void InitSlot(int Index, UInventoryComponent* _InventoryRef);
@@ -60,4 +64,14 @@ private:
 	// Variable to hold the widget After Creating it.
 	UPROPERTY()
 		class UEquipmentInventory* EquipmentInventory;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UToolTip> ToolTip_Ref;
+
+	// Variable to hold the widget After Creating it.
+	UPROPERTY()
+		class UToolTip* ToolTip;
+
+	UPROPERTY()
+		FInventoryData InvenData;
 };
