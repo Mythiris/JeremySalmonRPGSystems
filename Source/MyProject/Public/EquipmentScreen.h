@@ -19,6 +19,8 @@ public:
 	virtual void NativeConstruct() override;
 	void SetOwnersInventory(UInventoryComponent* _OwnersInventory);
 
+	void UpdateSlot(EArmorSlot _ArmorSlot, FItemData _Item);
+
 private:
 
 	UPROPERTY(meta = (BindWidget))

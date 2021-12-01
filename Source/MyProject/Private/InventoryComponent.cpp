@@ -18,7 +18,6 @@ UInventoryComponent::UInventoryComponent()
 	FItemData ItemData;
 
 	NullItem = { ItemData, 0 };
-
 }
 
 
@@ -37,6 +36,12 @@ void UInventoryComponent::BeginPlay()
 	}
 	
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	EquipedArmor.Add(Head);
+	EquipedArmor.Add(Chest);
+	EquipedArmor.Add(Arms);
+	EquipedArmor.Add(Legs);
+	EquipedArmor.Add(Feet);
 
 }
 
@@ -154,6 +159,29 @@ void UInventoryComponent::ToggleInventory()
 
 }
 
+void UInventoryComponent::SetInventorySize(int InvnSize)
+{
+	NumberOfSlots = InvnSize;
+}
+
+int UInventoryComponent::GetInventorySize() const
+{
+	return(NumberOfSlots);
+}
+
+FInventoryData UInventoryComponent::GetInventoryData(int Index)
+{
+	if (Inventory.IsValidIndex(Index))
+	{
+		return(Inventory[Index]);
+	}
+
+	return(NullItem);
+}
+
+
+/////////////////////////////	Equipment ///////////////////////////////////
+
 void UInventoryComponent::ToggleEquipmet()
 {
 	if (EquipmentScreen != NULL && PlayerController)
@@ -176,22 +204,25 @@ void UInventoryComponent::ToggleEquipmet()
 	}
 }
 
-void UInventoryComponent::SetInventorySize(int InvnSize)
+bool UInventoryComponent::IsEquiped(FItemData _CurrentItem, EArmorSlot _SlotType)
 {
-	NumberOfSlots = InvnSize;
-}
-
-int UInventoryComponent::GetInventorySize() const
-{
-	return(NumberOfSlots);
-}
-
-FInventoryData UInventoryComponent::GetInventoryData(int Index)
-{
-	if (Inventory.IsValidIndex(Index))
+	for (const TPair<EArmorSlot, FItemData>& pair : EquipedArmor)
 	{
-		return(Inventory[Index]);
+		if (pair.Key == _SlotType)
+		{
+			return(true);
+		}
 	}
 
-	return(NullItem);
+	return(false);
+}
+
+void UInventoryComponent::Unequip(EArmorSlot _SlotType)
+{
+	EquipedArmor.Emplace(_SlotType, NullItem.ItemData);
+}
+
+void UInventoryComponent::Equip(FItemData _Item, EArmorSlot _SlotType)
+{
+	//EquipedArmor.Emplace(_SlotType, _Item);
 }

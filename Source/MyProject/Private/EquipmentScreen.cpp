@@ -33,3 +33,27 @@ void UEquipmentScreen::SetOwnersInventory(UInventoryComponent* _OwnersInventory)
 	LegSlot->SetInventoryRef(OwnersInventory);
 	FeetSlot->SetInventoryRef(OwnersInventory);
 }
+
+void UEquipmentScreen::UpdateSlot(EArmorSlot _ArmorSlot, FItemData _Item)
+{
+	switch (_ArmorSlot)
+	{
+	case Head:
+		HeadSlot->InitSlot(_Item);
+		break;
+	case Chest:
+		ChestSlot->InitSlot(_Item);
+		break;
+	case Arms:
+		ArmSlot->InitSlot(_Item);
+		break;
+	case Legs:
+		LegSlot->InitSlot(_Item);
+		break;
+	case Feet:
+		FeetSlot->InitSlot(_Item);
+		break;
+	default:
+		break;
+	}
+}

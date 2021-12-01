@@ -25,7 +25,7 @@ public:
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 
 	UFUNCTION()
-		void InitSlot(int Index, UInventoryComponent* _InventoryRef);
+		void InitSlot(FItemData _Item);
 
 	UFUNCTION()
 		void SlotButtonOnClick();

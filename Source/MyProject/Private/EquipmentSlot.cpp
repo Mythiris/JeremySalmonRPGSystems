@@ -35,8 +35,6 @@ void UEquipmentSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
 
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Some debug message!"));
-
 	if (ToolTip_Ref != NULL)
 	{
 		if (ToolTip->IsInViewport())
@@ -51,15 +49,11 @@ void UEquipmentSlot::SetIsWindowSlot(bool _IsWindowSlot)
 	IsWindowSlot = _IsWindowSlot;
 }
 
-void UEquipmentSlot::InitSlot(int Index, UInventoryComponent* _InventoryRef)
+void UEquipmentSlot::InitSlot(FItemData _Item)
 {
-	SetInventoryRef(_InventoryRef);
-
-	InvenData = InventoryRef->GetInventoryData(Index);
-
-	if (InvenData.ItemData.ThumbNail)
+	if (_Item.ThumbNail)
 	{
-		ItemThumbnail->SetBrushFromTexture(InvenData.ItemData.ThumbNail);
+		ItemThumbnail->SetBrushFromTexture(_Item.ThumbNail);
 	}
 }
 
@@ -77,7 +71,17 @@ void UEquipmentSlot::SlotButtonOnClick()
 				EquipmentInventory->AddToViewport();
 			}
 		}
+		return;
 	}
+
+	if (InventoryRef->IsEquiped(InvenData.ItemData, SlotType))
+	{
+		InventoryRef->Unequip(SlotType);
+		return;
+	}
+
+	//InventoryRef->Equip(InvenData.ItemData, SlotType);
+
 }
 
 void UEquipmentSlot::SetSlotType(TEnumAsByte<EArmorSlot> _SlotType)

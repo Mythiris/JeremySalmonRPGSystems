@@ -55,22 +55,38 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
 
-	UFUNCTION(BlueprintCallable)
-		void ToggleEquipmet();
-
 	void SetInventorySize(int InvnSize);
 	int GetInventorySize() const;
 
 	FInventoryData GetInventoryData(int Index);
+
+
+
+	//Equipement
+
+	UFUNCTION(BlueprintCallable)
+		void ToggleEquipmet();
+
+	UFUNCTION()
+	bool IsEquiped(FItemData _CurrentItem, EArmorSlot _SlotType);
+
+	UFUNCTION()
+	void Unequip(EArmorSlot _SlotType);
+
+	UFUNCTION()
+		void Equip(FItemData _Item, EArmorSlot _SlotType);
 
 protected:
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY()
 	TArray<FInventoryData> Inventory;
 
+	//Equiped Items
+	UPROPERTY()
+	TMap<TEnumAsByte<EArmorSlot>, FItemData> EquipedArmor;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
 		int NumberOfSlots;

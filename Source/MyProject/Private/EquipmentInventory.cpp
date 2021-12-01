@@ -20,7 +20,7 @@ void UEquipmentInventory::InitWid(UInventoryComponent* InventoryRef, TEnumAsByte
 				if (EquipmentSlots_Ref != NULL, GetWorld())
 				{
 					EquipmentSlots.Add(CreateWidget<UEquipmentSlot>(GetWorld(), EquipmentSlots_Ref));
-					EquipmentSlots[EquipmentSlots.Num() - 1]->InitSlot(i, InventoryRef);
+					EquipmentSlots[EquipmentSlots.Num() - 1]->InitSlot(InventoryRef->GetInventoryData(i).ItemData);
 
 					DisplayGrid->AddChildToUniformGrid(EquipmentSlots[EquipmentSlots.Num() - 1], Row, Col);
 
