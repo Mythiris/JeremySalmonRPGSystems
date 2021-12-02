@@ -38,19 +38,19 @@ void UEquipmentScreen::UpdateSlot(EArmorSlot _ArmorSlot, FItemData _Item)
 {
 	switch (_ArmorSlot)
 	{
-	case Head:
+	case EArmorSlot::Head:
 		HeadSlot->InitSlot(_Item);
 		break;
-	case Chest:
+	case EArmorSlot::Chest:
 		ChestSlot->InitSlot(_Item);
 		break;
-	case Arms:
+	case EArmorSlot::Arms:
 		ArmSlot->InitSlot(_Item);
 		break;
-	case Legs:
+	case EArmorSlot::Legs:
 		LegSlot->InitSlot(_Item);
 		break;
-	case Feet:
+	case EArmorSlot::Feet:
 		FeetSlot->InitSlot(_Item);
 		break;
 	default:

@@ -73,5 +73,5 @@ private:
 		class UToolTip* ToolTip;
 
 	UPROPERTY()
-		FInventoryData InvenData;
+		FItemData ItemData;
 };

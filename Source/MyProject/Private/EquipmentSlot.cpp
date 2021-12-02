@@ -25,7 +25,7 @@ void UEquipmentSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoin
 	if (ToolTip_Ref != NULL && GetWorld())
 	{
 		ToolTip = CreateWidget<UToolTip>(GetWorld(), ToolTip_Ref);
-		ToolTip->SetData(InvenData.ItemData);
+		ToolTip->SetData(ItemData);
 		ToolTip->SetPositionInViewport(FVector2D(0,0));
 		ToolTip->AddToViewport();
 	}
@@ -51,10 +51,18 @@ void UEquipmentSlot::SetIsWindowSlot(bool _IsWindowSlot)
 
 void UEquipmentSlot::InitSlot(FItemData _Item)
 {
-	if (_Item.ThumbNail)
+	ItemData = _Item;
+
+	if (ItemData.ThumbNail)
 	{
-		ItemThumbnail->SetBrushFromTexture(_Item.ThumbNail);
+		ItemThumbnail->SetBrushFromTexture(ItemData.ThumbNail);
 	}
+
+	if (ItemData.ItemType == EItemType::Armor)
+	{
+		SlotType = ItemData.ArmorData.ArmorSlot;
+	}
+	
 }
 
 void UEquipmentSlot::SlotButtonOnClick()
@@ -65,7 +73,6 @@ void UEquipmentSlot::SlotButtonOnClick()
 		{
 			if (EquipmentInventory_Ref != NULL && GetWorld())
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("ButtonClick"));
 				EquipmentInventory = CreateWidget<UEquipmentInventory>(GetWorld(), EquipmentInventory_Ref);
 				EquipmentInventory->InitWid(InventoryRef, SlotType);
 				EquipmentInventory->AddToViewport();
@@ -74,9 +81,10 @@ void UEquipmentSlot::SlotButtonOnClick()
 		return;
 	}
 
-	if (InventoryRef->IsEquiped(InvenData.ItemData, SlotType))
+	
+	if (InventoryRef->IsEquiped(ItemData, SlotType))
 	{
-		InventoryRef->Unequip(SlotType);
+		//InventoryRef->Unequip(SlotType);
 		return;
 	}
 

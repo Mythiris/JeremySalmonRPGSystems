@@ -18,6 +18,13 @@ UInventoryComponent::UInventoryComponent()
 	FItemData ItemData;
 
 	NullItem = { ItemData, 0 };
+
+	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Head, ItemData });
+	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Chest, ItemData });
+	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Arms, ItemData });
+	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Legs, ItemData });
+	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Feet, ItemData });
+
 }
 
 
@@ -36,13 +43,6 @@ void UInventoryComponent::BeginPlay()
 	}
 	
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-
-	EquipedArmor.Add(Head);
-	EquipedArmor.Add(Chest);
-	EquipedArmor.Add(Arms);
-	EquipedArmor.Add(Legs);
-	EquipedArmor.Add(Feet);
-
 }
 
 
@@ -204,25 +204,27 @@ void UInventoryComponent::ToggleEquipmet()
 	}
 }
 
-bool UInventoryComponent::IsEquiped(FItemData _CurrentItem, EArmorSlot _SlotType)
+bool UInventoryComponent::IsEquiped(FItemData _CurrentItem, TEnumAsByte<EArmorSlot> _SlotType)
 {
-	for (const TPair<EArmorSlot, FItemData>& pair : EquipedArmor)
+	FEquipedArmor temp = FEquipedArmor{ _SlotType , _CurrentItem };
+	for (auto itter : EquipedArmor)
 	{
-		if (pair.Key == _SlotType)
+		if (itter == temp)
 		{
 			return(true);
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Cock"));
+
 		}
 	}
-
 	return(false);
 }
 
-void UInventoryComponent::Unequip(EArmorSlot _SlotType)
+void UInventoryComponent::Unequip(TEnumAsByte<EArmorSlot> _SlotType)
 {
-	EquipedArmor.Emplace(_SlotType, NullItem.ItemData);
+	
 }
 
-void UInventoryComponent::Equip(FItemData _Item, EArmorSlot _SlotType)
+void UInventoryComponent::Equip(FItemData _Item, TEnumAsByte<EArmorSlot> _SlotType)
 {
-	//EquipedArmor.Emplace(_SlotType, _Item);
+	
 }
