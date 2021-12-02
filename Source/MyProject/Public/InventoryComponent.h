@@ -29,28 +29,6 @@ struct FInventoryData
 	}
 };
 
-USTRUCT(BlueprintType)
-struct FEquipedArmor
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadWrite)
-		TEnumAsByte<EArmorSlot> ArmorSlot;
-
-	UPROPERTY(BlueprintReadWrite)
-		FItemData ItemData;
-
-	bool operator==(const FEquipedArmor& Other) const
-	{
-		if (ItemData == Other.ItemData && ArmorSlot == Other.ArmorSlot)
-		{
-			return true;
-		}
-		else return false;
-	}
-};
-
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYPROJECT_API UInventoryComponent : public UActorComponent
 {
@@ -89,13 +67,12 @@ public:
 		void ToggleEquipmet();
 
 	UFUNCTION()
-	bool IsEquiped(FItemData _CurrentItem, TEnumAsByte<EArmorSlot> _SlotType);
-
+	bool IsArmorEquiped(FItemData _Armor);
 	UFUNCTION()
-	void Unequip(TEnumAsByte<EArmorSlot> _SlotType);
-
+	void EquipArmor(FItemData _Armor);
 	UFUNCTION()
-		void Equip(FItemData _Item, TEnumAsByte<EArmorSlot> _SlotType);
+	void UnEquipArmor(FItemData _Armor);
+
 
 protected:
 	
@@ -107,7 +84,7 @@ protected:
 
 	//Equiped Items
 	UPROPERTY()
-		TArray<FEquipedArmor>EquipedArmor;
+		TMap<TEnumAsByte<EArmorSlot>, FItemData> EquipedArmor;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
 		int NumberOfSlots;

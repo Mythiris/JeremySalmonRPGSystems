@@ -19,11 +19,11 @@ UInventoryComponent::UInventoryComponent()
 
 	NullItem = { ItemData, 0 };
 
-	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Head, ItemData });
-	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Chest, ItemData });
-	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Arms, ItemData });
-	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Legs, ItemData });
-	EquipedArmor.Add(FEquipedArmor{EArmorSlot::Feet, ItemData });
+	EquipedArmor.Add(EArmorSlot::Head);
+	EquipedArmor.Add(EArmorSlot::Chest);
+	EquipedArmor.Add(EArmorSlot::Arms);
+	EquipedArmor.Add(EArmorSlot::Legs);
+	EquipedArmor.Add(EArmorSlot::Feet);
 
 }
 
@@ -204,27 +204,39 @@ void UInventoryComponent::ToggleEquipmet()
 	}
 }
 
-bool UInventoryComponent::IsEquiped(FItemData _CurrentItem, TEnumAsByte<EArmorSlot> _SlotType)
+
+bool UInventoryComponent::IsArmorEquiped(FItemData _Armor)
 {
-	FEquipedArmor temp = FEquipedArmor{ _SlotType , _CurrentItem };
-	for (auto itter : EquipedArmor)
+	if (EquipedArmor.Contains(_Armor.ArmorData.ArmorSlot))
 	{
-		if (itter == temp)
+		if (*EquipedArmor.Find(_Armor.ArmorData.ArmorSlot) == _Armor)
 		{
 			return(true);
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Cock"));
-
 		}
 	}
 	return(false);
 }
 
-void UInventoryComponent::Unequip(TEnumAsByte<EArmorSlot> _SlotType)
+void UInventoryComponent::EquipArmor(FItemData _Armor)
 {
-	
+	if (EquipedArmor.Contains(_Armor.ArmorData.ArmorSlot))
+	{
+		if (IsArmorEquiped(_Armor))
+		{
+			UnEquipArmor(_Armor);
+			return;
+		}
+
+		EquipedArmor.Emplace(_Armor.ArmorData.ArmorSlot, _Armor);
+		EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, _Armor);
+	}
 }
 
-void UInventoryComponent::Equip(FItemData _Item, TEnumAsByte<EArmorSlot> _SlotType)
+void UInventoryComponent::UnEquipArmor(FItemData _Armor)
 {
-	
+	EquipedArmor.Emplace(_Armor.ArmorData.ArmorSlot);
+
+	FItemData DeafultItem;
+	EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, DeafultItem);
+
 }

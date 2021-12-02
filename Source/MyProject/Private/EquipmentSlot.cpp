@@ -67,29 +67,24 @@ void UEquipmentSlot::InitSlot(FItemData _Item)
 
 void UEquipmentSlot::SlotButtonOnClick()
 {
-	if (IsWindowSlot)
+	if (InventoryRef)
 	{
-		if (InventoryRef)
+		if (IsWindowSlot)
 		{
+
 			if (EquipmentInventory_Ref != NULL && GetWorld())
 			{
 				EquipmentInventory = CreateWidget<UEquipmentInventory>(GetWorld(), EquipmentInventory_Ref);
 				EquipmentInventory->InitWid(InventoryRef, SlotType);
 				EquipmentInventory->AddToViewport();
 			}
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("tt"));
+			return;
 		}
-		return;
+		
+		InventoryRef->EquipArmor(ItemData);
+		
 	}
-
-	
-	if (InventoryRef->IsEquiped(ItemData, SlotType))
-	{
-		//InventoryRef->Unequip(SlotType);
-		return;
-	}
-
-	//InventoryRef->Equip(InvenData.ItemData, SlotType);
-
 }
 
 void UEquipmentSlot::SetSlotType(TEnumAsByte<EArmorSlot> _SlotType)
