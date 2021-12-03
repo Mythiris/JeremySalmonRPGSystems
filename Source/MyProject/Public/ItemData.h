@@ -54,6 +54,9 @@ struct FItemData
 		UTexture2D* ThumbNail;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		FString ItemDescription;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		bool IsStackable;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
