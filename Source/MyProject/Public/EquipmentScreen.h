@@ -29,7 +29,7 @@ private:
 		class UEquipmentSlot* HeadSlot;
 
 	UPROPERTY(meta = (BindWidget))
-		class UEquipmentSlot* ChestSlot;
+		class UEquipmentSlot* BodySlot;
 
 	UPROPERTY(meta = (BindWidget))
 		class UEquipmentSlot* ArmSlot;

@@ -96,6 +96,12 @@ protected:
 	UPROPERTY()
 		class UEquipmentScreen* EquipmentScreen;
 
+	UPROPERTY(EditDefaultsOnly)
+		UTexture2D* NullThumbnail;
+
+	UPROPERTY()
+	FItemData NullItemData;
+
 	UPROPERTY()
 	FInventoryData NullItem;
 

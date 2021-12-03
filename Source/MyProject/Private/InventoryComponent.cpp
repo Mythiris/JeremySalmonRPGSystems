@@ -14,17 +14,6 @@ UInventoryComponent::UInventoryComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	NumberOfSlots = 8;
-
-	FItemData ItemData;
-
-	NullItem = { ItemData, 0 };
-
-	EquipedArmor.Add(EArmorSlot::Head);
-	EquipedArmor.Add(EArmorSlot::Chest);
-	EquipedArmor.Add(EArmorSlot::Arms);
-	EquipedArmor.Add(EArmorSlot::Legs);
-	EquipedArmor.Add(EArmorSlot::Feet);
-
 }
 
 
@@ -43,6 +32,15 @@ void UInventoryComponent::BeginPlay()
 	}
 	
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	NullItemData.ThumbNail = NullThumbnail;
+	NullItem = { NullItemData, 0 };
+
+	EquipedArmor.Add(EArmorSlot::Head, NullItemData);
+	EquipedArmor.Add(EArmorSlot::Body, NullItemData);
+	EquipedArmor.Add(EArmorSlot::Arms, NullItemData);
+	EquipedArmor.Add(EArmorSlot::Legs, NullItemData);
+	EquipedArmor.Add(EArmorSlot::Feet, NullItemData);
 }
 
 
@@ -195,7 +193,14 @@ void UInventoryComponent::ToggleEquipmet()
 			return;
 		}
 
-		//EquipmentScreen->Refresh();
+		
+
+		for (const auto Itter : EquipedArmor)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Cock"));
+			EquipmentScreen->UpdateSlot(Itter.Key, Itter.Value);	
+		}
+
 		EquipmentScreen->AddToViewport();
 
 		PlayerController->SetInputMode(FInputModeUIOnly());
@@ -236,7 +241,6 @@ void UInventoryComponent::UnEquipArmor(FItemData _Armor)
 {
 	EquipedArmor.Emplace(_Armor.ArmorData.ArmorSlot);
 
-	FItemData DeafultItem;
-	EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, DeafultItem);
+	EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, NullItemData);
 
 }

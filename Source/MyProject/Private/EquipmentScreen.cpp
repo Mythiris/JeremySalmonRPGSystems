@@ -12,13 +12,13 @@ void UEquipmentScreen::NativeConstruct()
 
 
 	HeadSlot->SetSlotType(EArmorSlot::Head);
-	ChestSlot->SetSlotType(EArmorSlot::Chest);
+	BodySlot->SetSlotType(EArmorSlot::Body);
 	ArmSlot->SetSlotType(EArmorSlot::Arms);
 	LegSlot->SetSlotType(EArmorSlot::Legs);
 	FeetSlot->SetSlotType(EArmorSlot::Feet);
 
 	HeadSlot->SetIsWindowSlot(true);
-	ChestSlot->SetIsWindowSlot(true);
+	BodySlot->SetIsWindowSlot(true);
 	ArmSlot->SetIsWindowSlot(true);
 	LegSlot->SetIsWindowSlot(true);
 	FeetSlot->SetIsWindowSlot(true);
@@ -30,7 +30,7 @@ void UEquipmentScreen::SetOwnersInventory(UInventoryComponent* _OwnersInventory)
 	OwnersInventory = _OwnersInventory;
 
 	HeadSlot->SetInventoryRef(OwnersInventory);
-	ChestSlot->SetInventoryRef(OwnersInventory);
+	BodySlot->SetInventoryRef(OwnersInventory);
 	ArmSlot->SetInventoryRef(OwnersInventory);
 	LegSlot->SetInventoryRef(OwnersInventory);
 	FeetSlot->SetInventoryRef(OwnersInventory);
@@ -43,8 +43,8 @@ void UEquipmentScreen::UpdateSlot(EArmorSlot _ArmorSlot, FItemData _Item)
 	case EArmorSlot::Head:
 		HeadSlot->InitSlot(_Item);
 		break;
-	case EArmorSlot::Chest:
-		ChestSlot->InitSlot(_Item);
+	case EArmorSlot::Body:
+		BodySlot->InitSlot(_Item);
 		break;
 	case EArmorSlot::Arms:
 		ArmSlot->InitSlot(_Item);

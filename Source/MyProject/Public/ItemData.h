@@ -20,7 +20,7 @@ UENUM()
 enum EArmorSlot
 {
 	Head,
-	Chest,
+	Body,
 	Arms,
 	Legs,
 	Feet,

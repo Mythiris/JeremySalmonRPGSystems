@@ -42,7 +42,7 @@ void UEquipmentInventory::InitWid(UInventoryComponent* InventoryRef, TEnumAsByte
 
 					DisplayGrid->AddChildToUniformGrid(EquipmentSlots[EquipmentSlots.Num() - 1], Row, Col);
 
-					if (Col == 3)
+					if (Col == 2)
 					{
 						Col = 0;
 						Row++;
@@ -60,13 +60,11 @@ void UEquipmentInventory::InitWid(UInventoryComponent* InventoryRef, TEnumAsByte
 
 	if (Col != 3 || Col != 0)
 	{
-		for (int i = 0; i < 3; i++)
+		while(Col != 3)
 		{
 			EquipmentSlots.Add(CreateWidget<UEquipmentSlot>(GetWorld(), EquipmentSlots_Ref));
 
 			DisplayGrid->AddChildToUniformGrid(EquipmentSlots[EquipmentSlots.Num() - 1], Row, Col);
-
-			if (Col == 3){return;}
 
 			Col++;
 		}
