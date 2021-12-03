@@ -16,7 +16,7 @@ class MYPROJECT_API UEquipmentInventory : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
+	virtual void NativeConstruct() override;
 	void InitWid(UInventoryComponent* InventoryRef, TEnumAsByte<EArmorSlot> ArmorSlot);
 
 protected:

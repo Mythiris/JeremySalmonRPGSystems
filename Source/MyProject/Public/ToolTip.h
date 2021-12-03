@@ -24,11 +24,11 @@ private:
 	UPROPERTY(meta = (BindWidget))
 		class UTextBlock* ItemName;
 
-	UPROPERTY(meta = (BindWidget))
-		class UTextBlock* ItemRanK;
+	//UPROPERTY(meta = (BindWidget))
+	//	class UTextBlock* ItemRanK;
 
-	UPROPERTY(meta = (BindWidget))
-		class UTextBlock* ItemStats;
+	//UPROPERTY(meta = (BindWidget))
+	//	class UTextBlock* ItemStats;
 
 	UPROPERTY(meta = (BindWidget))
 		class UTextBlock* ItemInfo;

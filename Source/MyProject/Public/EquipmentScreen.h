@@ -17,6 +17,8 @@ class MYPROJECT_API UEquipmentScreen : public UUserWidget
 
 public:
 	virtual void NativeConstruct() override;
+	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
+
 	void SetOwnersInventory(UInventoryComponent* _OwnersInventory);
 
 	void UpdateSlot(EArmorSlot _ArmorSlot, FItemData _Item);

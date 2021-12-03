@@ -3,6 +3,8 @@
 
 #include "EquipmentScreen.h"
 #include "EquipmentSlot.h"
+#include "GameFramework/InputSettings.h"
+#include "InventoryComponent.h"
 
 void UEquipmentScreen::NativeConstruct()
 {
@@ -56,4 +58,21 @@ void UEquipmentScreen::UpdateSlot(EArmorSlot _ArmorSlot, FItemData _Item)
 	default:
 		break;
 	}
+}
+
+FReply UEquipmentScreen::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
+{
+	TArray<FInputActionKeyMapping> ActionMaping;
+	UInputSettings::GetInputSettings()->GetActionMappingByName("ToggleInventory", ActionMaping);
+
+	for (auto Action : ActionMaping)
+	{
+		if (Action.Key == InKeyEvent.GetKey())
+		{
+			OwnersInventory->ToggleEquipmet();
+			return FReply::Handled();
+		}
+	}
+
+	return FReply::Handled();
 }

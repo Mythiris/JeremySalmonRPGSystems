@@ -20,6 +20,7 @@ class MYPROJECT_API UEquipmentSlot : public UUserWidget
 public:
 
 	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
 
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
@@ -40,6 +41,7 @@ public:
 
 	UFUNCTION()
 	void SetIsWindowSlot(bool _IsWindowSlot);
+
 
 private:
 
@@ -74,4 +76,7 @@ private:
 
 	UPROPERTY()
 		FItemData ItemData;
+
+	UPROPERTY()
+		class APlayerController* PlayerControler;
 };

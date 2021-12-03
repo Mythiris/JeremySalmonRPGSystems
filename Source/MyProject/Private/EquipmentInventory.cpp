@@ -4,6 +4,23 @@
 #include "EquipmentInventory.h"
 #include "Components/UniformGridPanel.h"
 #include "EquipmentSlot.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+
+void UEquipmentInventory::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	if (GetWorld())
+	{
+		TArray<UUserWidget*> FoundWidgets;
+		UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), FoundWidgets, this->GetClass());
+
+		for (auto Itter : FoundWidgets)
+		{
+			Itter->RemoveFromParent();
+		}
+	}
+}
 
 void UEquipmentInventory::InitWid(UInventoryComponent* InventoryRef, TEnumAsByte<EArmorSlot> ArmorSlot)
 {

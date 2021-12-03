@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "ToolTip.h"
+#include "Kismet/GameplayStatics.h"
 
 void UEquipmentSlot::NativeConstruct()
 {
@@ -16,17 +17,42 @@ void UEquipmentSlot::NativeConstruct()
 	}
 
 	IsWindowSlot = false;
+
+}
+
+void UEquipmentSlot::NativeDestruct()
+{
+	Super::NativeDestruct();
+
+	if (ToolTip)
+	{
+		ToolTip->RemoveFromViewport();
+	}
+
+	if (EquipmentInventory)
+	{
+		EquipmentInventory->RemoveFromParent();
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Dick"));
+	}
 }
 
 void UEquipmentSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	if (!PlayerControler)
+	{
+		PlayerControler = Cast<APlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	}
 
 	if (ToolTip_Ref != NULL && GetWorld())
 	{
+		FVector2D MouseLoc;
+
 		ToolTip = CreateWidget<UToolTip>(GetWorld(), ToolTip_Ref);
 		ToolTip->SetData(ItemData);
-		ToolTip->SetPositionInViewport(FVector2D(0,0));
+
+		PlayerControler->GetMousePosition(MouseLoc.X, MouseLoc.Y);
+		ToolTip->SetPositionInViewport(MouseLoc);
 		ToolTip->AddToViewport();
 	}
 }
@@ -39,7 +65,7 @@ void UEquipmentSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	{
 		if (ToolTip->IsInViewport())
 		{
-			ToolTip->RemoveFromParent();
+			ToolTip->RemoveFromViewport();
 		}
 	}
 }
@@ -76,10 +102,10 @@ void UEquipmentSlot::SlotButtonOnClick()
 			{
 				EquipmentInventory = CreateWidget<UEquipmentInventory>(GetWorld(), EquipmentInventory_Ref);
 				EquipmentInventory->InitWid(InventoryRef, SlotType);
+				EquipmentInventory->SetPositionInViewport(FVector2D(50, 100));
 				EquipmentInventory->AddToViewport();
+				return;
 			}
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("tt"));
-			return;
 		}
 		
 		InventoryRef->EquipArmor(ItemData);
