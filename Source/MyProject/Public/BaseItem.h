@@ -22,6 +22,7 @@ public:
 
 	FItemData GetItemData();
 
+	// Interact Functions.
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void OnInteract(AActor* Caller);
 	virtual void OnInteract_Implementation(AActor* Caller);

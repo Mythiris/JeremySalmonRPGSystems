@@ -11,11 +11,14 @@ ABaseItem::ABaseItem()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Create mesh component.
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 
+	// Create Collision sphere component. 
 	CollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	CollisionSphere->SetupAttachment(Mesh);
 
+	// Init itemdata.
 	ItemData.Name = this->GetName();
 	ItemData.ItemRef = this->StaticClass();
 	Quantity = 1;
@@ -35,11 +38,13 @@ void ABaseItem::Tick(float DeltaTime)
 
 }
 
+// Return this objects ItemData
 FItemData ABaseItem::GetItemData()
 {
 	return(ItemData);
 }
 
+// Check if item is added to invenotry, then destroy.
 void ABaseItem::OnInteract_Implementation(AActor* Caller)
 {
 	/* Check that item was added to the inventory */
