@@ -19,6 +19,7 @@ struct FInventoryData
 	UPROPERTY(BlueprintReadWrite)
 		int Quantity;
 
+	// Used to compare this Enum with another copy.
 	bool operator==(const FInventoryData &Other) const
 	{
 		if (ItemData == Other.ItemData)
@@ -107,4 +108,7 @@ protected:
 
 	UPROPERTY()
 	class APlayerController* PlayerController;
+
+	UPROPERTY()
+	class AMyProjectCharacter* PlayerCharacter;
 };

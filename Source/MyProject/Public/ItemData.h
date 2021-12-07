@@ -37,6 +37,15 @@ struct FArmorData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
 		int ArmorValue;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMesh* ArmorMesh;
+
+	FArmorData()
+	{
+		ArmorValue = 1;
+		ArmorMesh = nullptr;
+	}
+
 };
 
 USTRUCT(BlueprintType)

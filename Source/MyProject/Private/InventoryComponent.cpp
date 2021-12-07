@@ -5,6 +5,7 @@
 #include "InventoryPanel.h"
 #include "EquipmentScreen.h"
 #include "Kismet/GameplayStatics.h"
+#include "MyProjectCharacter.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -13,6 +14,7 @@ UInventoryComponent::UInventoryComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+	// Set default amount of slots to 8.
 	NumberOfSlots = 8;
 }
 
@@ -27,15 +29,20 @@ void UInventoryComponent::BeginPlay()
 
 	if (EquipmentScreen_Ref != NULL && GetWorld())
 	{
+		// Create the EquipmentScreen widget for later use.
 		EquipmentScreen = CreateWidget<UEquipmentScreen>(GetWorld(), EquipmentScreen_Ref);
 		EquipmentScreen->SetOwnersInventory(this);
 	}
 	
+	// Get the Players Controller.
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	PlayerCharacter  = Cast<AMyProjectCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
+	// Set Null item to have a display ThumbNail.
 	NullItemData.ThumbNail = NullThumbnail;
 	NullItem = { NullItemData, 0 };
 
+	// Init EquipedArmor Tmap to have its keys and a nullitem.
 	EquipedArmor.Add(EArmorSlot::Head, NullItemData);
 	EquipedArmor.Add(EArmorSlot::Body, NullItemData);
 	EquipedArmor.Add(EArmorSlot::Arms, NullItemData);
@@ -52,6 +59,7 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
+// Add an item to the inventoy, return true if the item is added.
 bool UInventoryComponent::AddToInventory(FInventoryData ItemToAdd)
 {
 	FItemData ItemData = ItemToAdd.ItemData;
@@ -74,6 +82,7 @@ bool UInventoryComponent::AddToInventory(FInventoryData ItemToAdd)
   return(true);
 }
 
+// Add an item to the inventoy, return true if the item is added.
 bool UInventoryComponent::AddToInventory(FItemData ItemData, int Quantity)
 {
 	return(AddToInventory(FInventoryData{ ItemData, Quantity }));
@@ -157,35 +166,42 @@ void UInventoryComponent::ToggleInventory()
 
 }
 
+// Resize the Inventoy.
 void UInventoryComponent::SetInventorySize(int InvnSize)
 {
 	NumberOfSlots = InvnSize;
 }
 
+// Return Inventory size.
 int UInventoryComponent::GetInventorySize() const
 {
 	return(NumberOfSlots);
 }
 
+ // Return the data in the inventory at the given slot.
 FInventoryData UInventoryComponent::GetInventoryData(int Index)
 {
+	// Check if the slot is vaild.
 	if (Inventory.IsValidIndex(Index))
 	{
 		return(Inventory[Index]);
 	}
 
+	// Return nullitem is the slot is not valid.
 	return(NullItem);
 }
 
 
 /////////////////////////////	Equipment ///////////////////////////////////
 
+// Open or close the equipment screen.
 void UInventoryComponent::ToggleEquipmet()
 {
 	if (EquipmentScreen != NULL && PlayerController)
 	{
 		if (EquipmentScreen->IsInViewport())
 		{
+			// Remove the widget from the screen and set input back to the game.
 			EquipmentScreen->RemoveFromViewport();
 			PlayerController->SetInputMode(FInputModeGameOnly());
 			PlayerController->bShowMouseCursor = false;
@@ -193,23 +209,22 @@ void UInventoryComponent::ToggleEquipmet()
 			return;
 		}
 
-		
-
+		// Update the Equipment Screen slots from the data in the EquipedArmor TMap.
 		for (const auto Itter : EquipedArmor)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Cock"));
 			EquipmentScreen->UpdateSlot(Itter.Key, Itter.Value);	
 		}
 
 		EquipmentScreen->AddToViewport();
 
+		// Set input to UI.
 		PlayerController->SetInputMode(FInputModeUIOnly());
 		PlayerController->bShowMouseCursor = true;
 		return;
 	}
 }
 
-
+// Returns true if the Armordata is in EquipedArmor.
 bool UInventoryComponent::IsArmorEquiped(FItemData _Armor)
 {
 	if (EquipedArmor.Contains(_Armor.ArmorData.ArmorSlot))
@@ -222,6 +237,7 @@ bool UInventoryComponent::IsArmorEquiped(FItemData _Armor)
 	return(false);
 }
 
+// Replaces the current Armor data at the correct slot.
 void UInventoryComponent::EquipArmor(FItemData _Armor)
 {
 	if (EquipedArmor.Contains(_Armor.ArmorData.ArmorSlot))
@@ -234,13 +250,24 @@ void UInventoryComponent::EquipArmor(FItemData _Armor)
 
 		EquipedArmor.Emplace(_Armor.ArmorData.ArmorSlot, _Armor);
 		EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, _Armor);
+		
+		if (PlayerCharacter)
+		{
+			PlayerCharacter->UpdateArmorMesh(_Armor.ArmorData.ArmorSlot, _Armor.ArmorData.ArmorMesh);
+		}
 	}
 }
 
+// Removes the Armordata at the correct slot.
 void UInventoryComponent::UnEquipArmor(FItemData _Armor)
 {
 	EquipedArmor.Emplace(_Armor.ArmorData.ArmorSlot);
 
 	EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, NullItemData);
+
+	if (PlayerCharacter)
+	{
+		PlayerCharacter->UpdateArmorMesh(_Armor.ArmorData.ArmorSlot, _Armor.ArmorData.ArmorMesh);
+	}
 
 }

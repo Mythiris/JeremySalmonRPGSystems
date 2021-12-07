@@ -5,7 +5,7 @@
 #include "Components/GridPanel.h"
 #include "GameFramework/InputSettings.h"
 
-
+// Called when the widget is created.
 void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();

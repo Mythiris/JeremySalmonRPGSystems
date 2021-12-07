@@ -5,6 +5,7 @@
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 
+// Set the data for the Tooltip to display.
 void UToolTip::SetData(FItemData _ItemData)
 {
 	ItemData = _ItemData;
