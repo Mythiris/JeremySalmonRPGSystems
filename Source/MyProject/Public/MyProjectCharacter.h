@@ -66,8 +66,26 @@ protected:
 	UPROPERTY()
 	UStaticMeshComponent* HelmMesh;
 
-	UPROPERTY(EditAnywhere, Category = "Test")
-		UStaticMesh* HelmMeshMesh;
+	UPROPERTY()
+		UStaticMeshComponent* RightArmMesh;
+	
+	UPROPERTY()
+		UStaticMeshComponent* LeftArmMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* ChestMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* LeftLegMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* RightLegMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* LeftFootMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* RightFootMesh;
 
 protected:
 	// APawn interface

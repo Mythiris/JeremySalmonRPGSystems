@@ -267,7 +267,7 @@ void UInventoryComponent::UnEquipArmor(FItemData _Armor)
 
 	if (PlayerCharacter)
 	{
-		PlayerCharacter->UpdateArmorMesh(_Armor.ArmorData.ArmorSlot, _Armor.ArmorData.ArmorMesh);
+		PlayerCharacter->UpdateArmorMesh(_Armor.ArmorData.ArmorSlot, NullItemData.ArmorData.ArmorMesh);
 	}
 
 }

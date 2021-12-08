@@ -45,7 +45,18 @@ AMyProjectCharacter::AMyProjectCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	HelmMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HelmMesh"));
+	HelmMesh  = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HelmMesh"));
+
+	RightArmMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightArmMesh"));
+	LeftArmMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftArmMesh"));
+
+	ChestMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ChestMesh"));
+
+	LeftLegMesh   = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLegMesh"));
+	RightLegMesh   = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLegMesh"));
+
+	LeftFootMesh  = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftFootMesh"));
+	RightFootMesh  = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightFootMesh"));
 	
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)}
@@ -55,7 +66,19 @@ void AMyProjectCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Bind Armor meshes to the correct socket.
 	HelmMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("headSocket"));
+
+	RightArmMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("lowerarm_rSocket"));
+	LeftArmMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("lowerarm_lSocket"));
+
+	ChestMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("spine_03Socket"));
+
+	LeftLegMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("calf_lSocket"));
+	RightLegMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("calf_rSocket"));
+
+	LeftFootMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("ik_foot_lSocket"));
+	RightFootMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("ik_foot_rSocket"));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -154,19 +177,31 @@ void AMyProjectCharacter::UpdateArmorMesh(EArmorSlot Slot, UStaticMesh* ArmorMes
 {
 	switch (Slot)
 	{
+	
 	case Head:
 		HelmMesh->SetStaticMesh(ArmorMesh);
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Yep"));
 		break;
+	
 	case Body:
+		ChestMesh->SetStaticMesh(ArmorMesh);
 		break;
+	
 	case Arms:
+		RightArmMesh->SetStaticMesh(ArmorMesh);
+		LeftArmMesh->SetStaticMesh(ArmorMesh);
 		break;
+	
 	case Legs:
+		LeftLegMesh->SetStaticMesh(ArmorMesh);
+		RightLegMesh->SetStaticMesh(ArmorMesh);
 		break;
+	
 	case Feet:
+		LeftFootMesh->SetStaticMesh(ArmorMesh);
+		RightFootMesh->SetStaticMesh(ArmorMesh);
 		break;
 	default:
+
 		break;
 	}
 }
