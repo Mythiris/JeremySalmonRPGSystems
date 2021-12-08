@@ -40,6 +40,15 @@ private:
 	UPROPERTY(meta = (BindWidget))
 		class UEquipmentSlot* FeetSlot;
 
+	UPROPERTY(meta = (BindWidget))
+		class UWeaponSlot* LeftHand;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWeaponSlot* RightHand;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWeaponSlot* Ranged;
+
 	UPROPERTY()
 	class UInventoryComponent* OwnersInventory;
 	

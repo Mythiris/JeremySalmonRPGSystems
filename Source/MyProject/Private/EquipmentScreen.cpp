@@ -5,6 +5,7 @@
 #include "EquipmentSlot.h"
 #include "GameFramework/InputSettings.h"
 #include "InventoryComponent.h"
+#include "WeaponSlot.h"
 
 // Called when created.
 void UEquipmentScreen::NativeConstruct()
@@ -25,6 +26,13 @@ void UEquipmentScreen::NativeConstruct()
 	LegSlot->SetIsWindowSlot(true);
 	FeetSlot->SetIsWindowSlot(true);
 
+	LeftHand->SetSlotType(ESlotType::LeftHand);
+	RightHand->SetSlotType(ESlotType::RightHand);
+	Ranged->SetSlotType(ESlotType::Ranged);
+
+	LeftHand->SetIsWindowSlot(true);
+	RightHand->SetIsWindowSlot(true);
+	Ranged->SetIsWindowSlot(true);
 }
 
 // Sets the UInventoryComponent referance.
@@ -38,6 +46,10 @@ void UEquipmentScreen::SetOwnersInventory(UInventoryComponent* _OwnersInventory)
 	ArmSlot->SetInventoryRef(OwnersInventory);
 	LegSlot->SetInventoryRef(OwnersInventory);
 	FeetSlot->SetInventoryRef(OwnersInventory);
+
+	LeftHand->SetInventoryRef(OwnersInventory);
+	RightHand->SetInventoryRef(OwnersInventory);
+	Ranged->SetInventoryRef(OwnersInventory);
 }
 
 // Update slot with the new item data.

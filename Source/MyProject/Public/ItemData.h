@@ -26,6 +26,14 @@ enum EArmorSlot
 	Feet,
 };
 
+UENUM()
+enum EWeaponType
+{
+	TwoHandWeapon,
+	OneHandWeapon,
+	RangedWeapon,
+};
+
 USTRUCT(BlueprintType)
 struct FArmorData
 {
@@ -44,6 +52,28 @@ struct FArmorData
 	{
 		ArmorValue = 1;
 		ArmorMesh = nullptr;
+	}
+
+};
+
+USTRUCT(BlueprintType)
+struct FWeaponData
+{
+	GENERATED_BODY()
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TEnumAsByte<EWeaponType> WeaponType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
+		int WeaponValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMesh* WeaponMesh;
+
+	FWeaponData()
+	{
+		WeaponValue = 1;
+		WeaponMesh = nullptr;
 	}
 
 };
@@ -76,6 +106,9 @@ struct FItemData
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData", meta = (EditCondition = "ItemType == EItemType::Armor ", EditConditionHides))
 		FArmorData ArmorData;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ItemData", meta = (EditCondition = "ItemType == EItemType::Weapon ", EditConditionHides))
+		FWeaponData WeaponData;
 
 	FItemData()
 	{
