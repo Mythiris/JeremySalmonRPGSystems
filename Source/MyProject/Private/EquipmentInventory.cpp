@@ -38,6 +38,7 @@ void UEquipmentInventory::InitWid(UInventoryComponent* _InventoryRef, TEnumAsByt
 	Row = 0;
 	Col = 0;
 	InventoryRef = _InventoryRef;
+	SlotType = EquiptmentSlot;
 
 	for (int i = 0; i < InventoryRef->GetInventorySize(); i++)
 	{
@@ -107,6 +108,7 @@ void UEquipmentInventory::PopulateWidget(FItemData _ItemData)
 		// Create a new EquipmentSlot and add the data to it.
 		EquipmentSlots.Add(CreateWidget<UEquipmentSlot>(GetWorld(), EquipmentSlots_Ref));
 		EquipmentSlots[EquipmentSlots.Num() - 1]->InitSlot(_ItemData);
+		EquipmentSlots[EquipmentSlots.Num() - 1]->SetSlotType(SlotType);
 		EquipmentSlots[EquipmentSlots.Num() - 1]->SetInventoryRef(InventoryRef);
 
 		// Add EquipmentSlot to a Uniform Grid.

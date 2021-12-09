@@ -50,9 +50,10 @@ void UEquipmentScreen::SetOwnersInventory(UInventoryComponent* _OwnersInventory)
 }
 
 // Update slot with the new item data.
-void UEquipmentScreen::UpdateSlot(EEquipmentSlots _ArmorSlot, FItemData _Item)
+void UEquipmentScreen::UpdateSlot(EEquipmentSlots _ItemSlot, FItemData _Item)
 {
-	switch (_ArmorSlot)
+
+	switch (_ItemSlot)
 	{
 	case EEquipmentSlots::Head:
 		HeadSlot->InitSlot(_Item);
@@ -68,10 +69,19 @@ void UEquipmentScreen::UpdateSlot(EEquipmentSlots _ArmorSlot, FItemData _Item)
 		break;
 	case EEquipmentSlots::Feet:
 		FeetSlot->InitSlot(_Item);
+	case EEquipmentSlots::LeftHand:
+		LeftHand->InitSlot(_Item);
+		break;
+	case EEquipmentSlots::RightHand:
+		RightHand->InitSlot(_Item);
+		break;
+	case EEquipmentSlots::Ranged:
+		Ranged->InitSlot(_Item);
 		break;
 	default:
 		break;
 	}
+
 }
 
 // Called when a key is pressed.

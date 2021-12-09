@@ -67,6 +67,9 @@ struct FWeaponData
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TEnumAsByte<EWeaponTypes> WeaponSlot;
 
+	UPROPERTY(BlueprintReadWrite)
+		TEnumAsByte<EEquipmentSlots> EquipedSlot;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
 		int WeaponValue;
 

@@ -30,6 +30,9 @@ public:
 protected:
 
 	UPROPERTY()
+	TEnumAsByte<EEquipmentSlots> SlotType;
+	
+	UPROPERTY()
 		UInventoryComponent* InventoryRef;
 
 	UPROPERTY(meta = (BindWidget))

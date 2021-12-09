@@ -57,6 +57,10 @@ AMyProjectCharacter::AMyProjectCharacter()
 
 	LeftFootMesh  = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftFootMesh"));
 	RightFootMesh  = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightFootMesh"));
+
+	LeftHandMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftHandMesh"));
+	RightHandMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightHandMesh"));
+	RangedMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RangedMesh"));
 	
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)}
@@ -79,6 +83,10 @@ void AMyProjectCharacter::BeginPlay()
 
 	LeftFootMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("ik_foot_lSocket"));
 	RightFootMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("ik_foot_rSocket"));
+
+	LeftHandMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("hand_lSocket"));
+	RightHandMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("hand_rSocket"));
+	RangedMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("spine_02Socket"));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -173,35 +181,48 @@ void AMyProjectCharacter::MoveRight(float Value)
 	}
 }
 
-void AMyProjectCharacter::UpdateArmorMesh(EEquipmentSlots Slot, UStaticMesh* ArmorMesh)
+void AMyProjectCharacter::UpdateEquipmentMesh(EEquipmentSlots Slot, UStaticMesh* ItemMesh)
 {
 	switch (Slot)
 	{
-	
 	case Head:
-		HelmMesh->SetStaticMesh(ArmorMesh);
+		HelmMesh->SetStaticMesh(ItemMesh);
 		break;
-	
-	case Body:
-		ChestMesh->SetStaticMesh(ArmorMesh);
-		break;
-	
-	case Arms:
-		RightArmMesh->SetStaticMesh(ArmorMesh);
-		LeftArmMesh->SetStaticMesh(ArmorMesh);
-		break;
-	
-	case Legs:
-		LeftLegMesh->SetStaticMesh(ArmorMesh);
-		RightLegMesh->SetStaticMesh(ArmorMesh);
-		break;
-	
-	case Feet:
-		LeftFootMesh->SetStaticMesh(ArmorMesh);
-		RightFootMesh->SetStaticMesh(ArmorMesh);
-		break;
-	default:
 
+	case Body:
+		ChestMesh->SetStaticMesh(ItemMesh);
+		break;
+
+	case Arms:
+		RightArmMesh->SetStaticMesh(ItemMesh);
+		LeftArmMesh->SetStaticMesh(ItemMesh);
+		break;
+
+	case Legs:
+		LeftLegMesh->SetStaticMesh(ItemMesh);
+		RightLegMesh->SetStaticMesh(ItemMesh);
+		break;
+
+	case Feet:
+		LeftFootMesh->SetStaticMesh(ItemMesh);
+		RightFootMesh->SetStaticMesh(ItemMesh);
+		break;
+
+	case LeftHand:
+		LeftHandMesh->SetStaticMesh(ItemMesh);
+		break;
+
+	case RightHand:
+		RightHandMesh->SetStaticMesh(ItemMesh);
+		break;
+
+	case Ranged:
+		RangedMesh->SetStaticMesh(ItemMesh);
+		break;
+
+	default:
 		break;
 	}
 }
+
+

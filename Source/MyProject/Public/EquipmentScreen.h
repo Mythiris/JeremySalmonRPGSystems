@@ -21,7 +21,7 @@ public:
 
 	void SetOwnersInventory(UInventoryComponent* _OwnersInventory);
 
-	void UpdateSlot(EEquipmentSlots _ArmorSlot, FItemData _Item);
+	void UpdateSlot(EEquipmentSlots _ItemSlot, FItemData _Item);
 
 private:
 

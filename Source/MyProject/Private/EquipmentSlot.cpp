@@ -96,11 +96,6 @@ void UEquipmentSlot::InitSlot(FItemData _Item)
 		ItemThumbnail->SetBrushFromTexture(ItemData.ThumbNail);
 	}
 
-	if (ItemData.ItemType == EItemType::Armor)
-	{
-		SlotType = ItemData.ArmorData.ArmorSlot;
-	}
-	
 }
 
 // Callled on button click.
@@ -123,8 +118,14 @@ void UEquipmentSlot::SlotButtonOnClick()
 				return;
 			}
 		}
+
+		if (ItemData.ItemType == Weapon)
+		{
+			ItemData.WeaponData.EquipedSlot = SlotType;
+		}
+
 		// If this widget is not on the equipment screen, equip the armor displayed.
-		InventoryRef->EquipArmor(ItemData);
+		InventoryRef->EquipItem(ItemData);
 		
 	}
 }

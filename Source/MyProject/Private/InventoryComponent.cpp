@@ -48,6 +48,10 @@ void UInventoryComponent::BeginPlay()
 	EquipedEquipment.Add(EEquipmentSlots::Arms, NullItemData);
 	EquipedEquipment.Add(EEquipmentSlots::Legs, NullItemData);
 	EquipedEquipment.Add(EEquipmentSlots::Feet, NullItemData);
+
+	EquipedEquipment.Add(EEquipmentSlots::LeftHand, NullItemData);
+	EquipedEquipment.Add(EEquipmentSlots::RightHand, NullItemData);
+	EquipedEquipment.Add(EEquipmentSlots::Ranged, NullItemData);
 }
 
 
@@ -225,11 +229,23 @@ void UInventoryComponent::ToggleEquipmet()
 }
 
 // Returns true if the Armordata is in EquipedEquipment.
-bool UInventoryComponent::IsArmorEquiped(FItemData _Armor)
+bool UInventoryComponent::IsItemEquiped(FItemData _Item)
 {
-	if (EquipedEquipment.Contains(_Armor.ArmorData.ArmorSlot))
+	if (_Item.ItemType == Armor)
 	{
-		if (*EquipedEquipment.Find(_Armor.ArmorData.ArmorSlot) == _Armor)
+		if (EquipedEquipment.Contains(_Item.ArmorData.ArmorSlot))
+		{
+			if (*EquipedEquipment.Find(_Item.ArmorData.ArmorSlot) == _Item)
+			{
+				return(true);
+			}
+		}
+		return(false);
+	}
+
+	if (EquipedEquipment.Contains(_Item.WeaponData.EquipedSlot))
+	{
+		if (*EquipedEquipment.Find(_Item.WeaponData.EquipedSlot) == _Item )
 		{
 			return(true);
 		}
@@ -238,36 +254,58 @@ bool UInventoryComponent::IsArmorEquiped(FItemData _Armor)
 }
 
 // Replaces the current Armor data at the correct slot.
-void UInventoryComponent::EquipArmor(FItemData _Armor)
+void UInventoryComponent::EquipItem(FItemData _Item)
 {
-	if (EquipedEquipment.Contains(_Armor.ArmorData.ArmorSlot))
+	if (PlayerCharacter)
 	{
-		if (IsArmorEquiped(_Armor))
+		if (_Item.ItemType == Armor)
 		{
-			UnEquipArmor(_Armor);
-			return;
-		}
+			if (EquipedEquipment.Contains(_Item.ArmorData.ArmorSlot))
+			{
+				if (IsItemEquiped(_Item))
+				{
+					UnEquipItem(_Item);
+					return;
+				}
 
-		EquipedEquipment.Emplace(_Armor.ArmorData.ArmorSlot, _Armor);
-		EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, _Armor);
-		
-		if (PlayerCharacter)
+				EquipedEquipment.Emplace(_Item.ArmorData.ArmorSlot, _Item);
+				EquipmentScreen->UpdateSlot(_Item.ArmorData.ArmorSlot, _Item);
+				PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, _Item.ArmorData.ArmorMesh);
+				return;
+			}
+		}
+		if (EquipedEquipment.Contains(_Item.WeaponData.EquipedSlot))
 		{
-			PlayerCharacter->UpdateArmorMesh(_Armor.ArmorData.ArmorSlot, _Armor.ArmorData.ArmorMesh);
+			if (IsItemEquiped(_Item))
+			{
+				UnEquipItem(_Item);
+				return;
+			}
+			EquipedEquipment.Emplace(_Item.WeaponData.EquipedSlot, _Item);
+			EquipmentScreen->UpdateSlot(_Item.WeaponData.EquipedSlot, _Item);
+			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, _Item.WeaponData.WeaponMesh);
 		}
 	}
 }
 
+
 // Removes the Armordata at the correct slot.
-void UInventoryComponent::UnEquipArmor(FItemData _Armor)
+void UInventoryComponent::UnEquipItem(FItemData _Item)
 {
-	EquipedEquipment.Emplace(_Armor.ArmorData.ArmorSlot);
-
-	EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, NullItemData);
-
 	if (PlayerCharacter)
 	{
-		PlayerCharacter->UpdateArmorMesh(_Armor.ArmorData.ArmorSlot, NullItemData.ArmorData.ArmorMesh);
+		if (_Item.ItemType == Armor)
+		{
+			EquipedEquipment.Emplace(_Item.ArmorData.ArmorSlot);
+			EquipmentScreen->UpdateSlot(_Item.ArmorData.ArmorSlot, NullItemData);
+			PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, NullItemData.ArmorData.ArmorMesh);
+		}
+		else
+		{
+			EquipedEquipment.Emplace(_Item.WeaponData.EquipedSlot);
+			EquipmentScreen->UpdateSlot(_Item.WeaponData.EquipedSlot, NullItemData);
+			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, NullItemData.WeaponData.WeaponMesh);
+		}
 	}
 
 }

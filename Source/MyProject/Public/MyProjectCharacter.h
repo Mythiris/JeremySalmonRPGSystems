@@ -32,7 +32,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	void UpdateArmorMesh(EEquipmentSlots Slot, UStaticMesh* ArmorMesh);
+	void UpdateEquipmentMesh(EEquipmentSlots Slot, UStaticMesh* ItemMesh);
 
 protected:
 
@@ -86,6 +86,15 @@ protected:
 
 	UPROPERTY()
 		UStaticMeshComponent* RightFootMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* LeftHandMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* RightHandMesh;
+
+	UPROPERTY()
+		UStaticMeshComponent* RangedMesh;
 
 protected:
 	// APawn interface

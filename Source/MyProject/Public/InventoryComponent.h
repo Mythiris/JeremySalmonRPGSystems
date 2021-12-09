@@ -68,11 +68,11 @@ public:
 		void ToggleEquipmet();
 
 	UFUNCTION()
-	bool IsArmorEquiped(FItemData _Armor);
+	bool IsItemEquiped(FItemData _Item);
 	UFUNCTION()
-	void EquipArmor(FItemData _Armor);
+	void EquipItem(FItemData _Item);
 	UFUNCTION()
-	void UnEquipArmor(FItemData _Armor);
+	void UnEquipItem(FItemData _Item);
 
 
 protected:
