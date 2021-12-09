@@ -17,20 +17,23 @@ enum EItemType
 };
 
 UENUM()
-enum EArmorSlot
+enum EEquipmentSlots
 {
 	Head,
 	Body,
 	Arms,
 	Legs,
 	Feet,
+	LeftHand,
+	RightHand,
+	Ranged,
 };
 
 UENUM()
-enum EWeaponType
+enum EWeaponTypes
 {
-	TwoHandWeapon,
-	OneHandWeapon,
+	OneHanded,
+	TwoHanded,
 	RangedWeapon,
 };
 
@@ -40,7 +43,7 @@ struct FArmorData
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<EArmorSlot> ArmorSlot;
+		TEnumAsByte<EEquipmentSlots> ArmorSlot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
 		int ArmorValue;
@@ -62,7 +65,7 @@ struct FWeaponData
 	GENERATED_BODY()
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TEnumAsByte<EWeaponType> WeaponType;
+		TEnumAsByte<EWeaponTypes> WeaponSlot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0"))
 		int WeaponValue;

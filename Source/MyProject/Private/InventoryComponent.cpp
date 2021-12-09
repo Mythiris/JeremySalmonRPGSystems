@@ -42,12 +42,12 @@ void UInventoryComponent::BeginPlay()
 	NullItemData.ThumbNail = NullThumbnail;
 	NullItem = { NullItemData, 0 };
 
-	// Init EquipedArmor Tmap to have its keys and a nullitem.
-	EquipedArmor.Add(EArmorSlot::Head, NullItemData);
-	EquipedArmor.Add(EArmorSlot::Body, NullItemData);
-	EquipedArmor.Add(EArmorSlot::Arms, NullItemData);
-	EquipedArmor.Add(EArmorSlot::Legs, NullItemData);
-	EquipedArmor.Add(EArmorSlot::Feet, NullItemData);
+	// Init EquipedEquipment Tmap to have its keys and a nullitem.
+	EquipedEquipment.Add(EEquipmentSlots::Head, NullItemData);
+	EquipedEquipment.Add(EEquipmentSlots::Body, NullItemData);
+	EquipedEquipment.Add(EEquipmentSlots::Arms, NullItemData);
+	EquipedEquipment.Add(EEquipmentSlots::Legs, NullItemData);
+	EquipedEquipment.Add(EEquipmentSlots::Feet, NullItemData);
 }
 
 
@@ -209,8 +209,8 @@ void UInventoryComponent::ToggleEquipmet()
 			return;
 		}
 
-		// Update the Equipment Screen slots from the data in the EquipedArmor TMap.
-		for (const auto Itter : EquipedArmor)
+		// Update the Equipment Screen slots from the data in the EquipedEquipment TMap.
+		for (const auto Itter : EquipedEquipment)
 		{
 			EquipmentScreen->UpdateSlot(Itter.Key, Itter.Value);	
 		}
@@ -224,12 +224,12 @@ void UInventoryComponent::ToggleEquipmet()
 	}
 }
 
-// Returns true if the Armordata is in EquipedArmor.
+// Returns true if the Armordata is in EquipedEquipment.
 bool UInventoryComponent::IsArmorEquiped(FItemData _Armor)
 {
-	if (EquipedArmor.Contains(_Armor.ArmorData.ArmorSlot))
+	if (EquipedEquipment.Contains(_Armor.ArmorData.ArmorSlot))
 	{
-		if (*EquipedArmor.Find(_Armor.ArmorData.ArmorSlot) == _Armor)
+		if (*EquipedEquipment.Find(_Armor.ArmorData.ArmorSlot) == _Armor)
 		{
 			return(true);
 		}
@@ -240,7 +240,7 @@ bool UInventoryComponent::IsArmorEquiped(FItemData _Armor)
 // Replaces the current Armor data at the correct slot.
 void UInventoryComponent::EquipArmor(FItemData _Armor)
 {
-	if (EquipedArmor.Contains(_Armor.ArmorData.ArmorSlot))
+	if (EquipedEquipment.Contains(_Armor.ArmorData.ArmorSlot))
 	{
 		if (IsArmorEquiped(_Armor))
 		{
@@ -248,7 +248,7 @@ void UInventoryComponent::EquipArmor(FItemData _Armor)
 			return;
 		}
 
-		EquipedArmor.Emplace(_Armor.ArmorData.ArmorSlot, _Armor);
+		EquipedEquipment.Emplace(_Armor.ArmorData.ArmorSlot, _Armor);
 		EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, _Armor);
 		
 		if (PlayerCharacter)
@@ -261,7 +261,7 @@ void UInventoryComponent::EquipArmor(FItemData _Armor)
 // Removes the Armordata at the correct slot.
 void UInventoryComponent::UnEquipArmor(FItemData _Armor)
 {
-	EquipedArmor.Emplace(_Armor.ArmorData.ArmorSlot);
+	EquipedEquipment.Emplace(_Armor.ArmorData.ArmorSlot);
 
 	EquipmentScreen->UpdateSlot(_Armor.ArmorData.ArmorSlot, NullItemData);
 

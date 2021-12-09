@@ -173,7 +173,7 @@ void AMyProjectCharacter::MoveRight(float Value)
 	}
 }
 
-void AMyProjectCharacter::UpdateArmorMesh(EArmorSlot Slot, UStaticMesh* ArmorMesh)
+void AMyProjectCharacter::UpdateArmorMesh(EEquipmentSlots Slot, UStaticMesh* ArmorMesh)
 {
 	switch (Slot)
 	{

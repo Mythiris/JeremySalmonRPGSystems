@@ -130,13 +130,13 @@ void UEquipmentSlot::SlotButtonOnClick()
 }
 
 // Set the slots type.
-void UEquipmentSlot::SetSlotType(TEnumAsByte<EArmorSlot> _SlotType)
+void UEquipmentSlot::SetSlotType(TEnumAsByte<EEquipmentSlots> _SlotType)
 {
 	SlotType = _SlotType;
 }
 
 // Return slot type.
-TEnumAsByte<EArmorSlot> UEquipmentSlot::GetSlotType()
+TEnumAsByte<EEquipmentSlots> UEquipmentSlot::GetSlotType()
 {
 	return(SlotType);
 }

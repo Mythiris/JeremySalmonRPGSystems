@@ -21,7 +21,7 @@ public:
 
 	void SetOwnersInventory(UInventoryComponent* _OwnersInventory);
 
-	void UpdateSlot(EArmorSlot _ArmorSlot, FItemData _Item);
+	void UpdateSlot(EEquipmentSlots _ArmorSlot, FItemData _Item);
 
 private:
 
@@ -41,13 +41,13 @@ private:
 		class UEquipmentSlot* FeetSlot;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWeaponSlot* LeftHand;
+		class UEquipmentSlot* LeftHand;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWeaponSlot* RightHand;
+		class UEquipmentSlot* RightHand;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWeaponSlot* Ranged;
+		class UEquipmentSlot* Ranged;
 
 	UPROPERTY()
 	class UInventoryComponent* OwnersInventory;

@@ -32,10 +32,10 @@ public:
 		void SlotButtonOnClick();
 
 	UFUNCTION()
-		void SetSlotType(TEnumAsByte<EArmorSlot> _SlotType);
+		void SetSlotType(TEnumAsByte<EEquipmentSlots> _SlotType);
 
 	UFUNCTION()
-		TEnumAsByte<EArmorSlot> GetSlotType();
+		TEnumAsByte<EEquipmentSlots> GetSlotType();
 
 	void SetInventoryRef(UInventoryComponent* _InventoryRef);
 
@@ -52,7 +52,7 @@ private:
 		class UImage* ItemThumbnail;
 
 	UPROPERTY()
-		TEnumAsByte<EArmorSlot> SlotType;
+		TEnumAsByte<EEquipmentSlots> SlotType;
 
 	UPROPERTY()
 		bool IsWindowSlot;

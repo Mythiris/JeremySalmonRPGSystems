@@ -85,7 +85,7 @@ protected:
 
 	//Equiped Items
 	UPROPERTY()
-		TMap<TEnumAsByte<EArmorSlot>, FItemData> EquipedArmor;
+		TMap<TEnumAsByte<EEquipmentSlots>, FItemData> EquipedEquipment;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
 		int NumberOfSlots;
