@@ -62,26 +62,17 @@ void UInventoryComponent::BeginPlay()
 	EquipedEquipment.Add(EEquipmentSlots::Ranged, NullItemData);
 }
 
-
-// Called every frame
-void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
 // Add an item to the inventoy, return true if the item is added.
 bool UInventoryComponent::AddToInventory(FInventoryData ItemToAdd)
 {
 	FItemData ItemData = ItemToAdd.ItemData;
 
-	/* Check if the current item can stack */
+	// Check if the current item can stack.
 	if (ItemData.IsStackable)
 	{
 		for (int i = 0; i < Inventory.Num(); i++)
 		{
-			/* If this item is in the inventory, check the current stack size against the max stack size */
+			// If this item is in the inventory, check the current stack size against the max stack size.
 			if (ItemData.ItemRef == Inventory[i].ItemData.ItemRef && Inventory[i].Quantity < ItemData.MaxStackSize)
 			{
 				AddToStack(ItemToAdd, i);
@@ -108,7 +99,7 @@ void UInventoryComponent::CreateStack(FInventoryData ItemToAdd)
 	{
 		Inventory[Index] = FInventoryData{ ItemToAdd.ItemData, 1};
 		
-		/* If more than one item was added, add the rest*/
+		// If more than one item was added, add the rest*/
 		if (ItemToAdd.Quantity - 1 > 0)
 		{
 			ItemToAdd.Quantity -= 1;
@@ -127,16 +118,16 @@ void UInventoryComponent::AddToStack(FInventoryData ItemToAdd, int Index)
 	FItemData ItemData = ItemToAdd.ItemData;
 	int TotalQuantity = Inventory[Index].Quantity + ItemToAdd.Quantity;
 
-	/* Check if the total Quantity of the item supasses the max stack size */
+	// Check if the total Quantity of the item supasses the max stack size.
 	if (TotalQuantity > ItemData.MaxStackSize)
 	{
-		/* Set the Quantity for this slot to max */
+		// Set the Quantity for this slot to max.
 		Inventory[Index].Quantity = ItemData.MaxStackSize;
 
-		/* Set excess quantity */
+		// Set excess quantity.
 		ItemToAdd.Quantity = TotalQuantity - ItemData.MaxStackSize;
 		
-		/* Add the excess to the inventoy  */
+		// Add the excess to the inventoy.
 		AddToInventory(ItemToAdd);
 		return;
 	}
@@ -155,10 +146,12 @@ void UInventoryComponent::RemoveFromInventory(FInventoryData ItemToRemove)
 	return;
 }
 
+// Toggle Inventory Open and close.
 void UInventoryComponent::ToggleInventory()
 {
 	if (InventoryScreen && PlayerController)
 	{
+		// If Inventory is in viewport Remove it.
 		if (InventoryScreen->IsInViewport())
 		{
 			InventoryScreen->RemoveFromViewport();
@@ -168,9 +161,11 @@ void UInventoryComponent::ToggleInventory()
 			return;
 		}
 
+		// Send Data to inventory and add it to the viewport.
 		InventoryScreen->InitWid(this);
 		InventoryScreen->AddToViewport();
 
+		// Set input mode to UI.
 		PlayerController->SetInputMode(FInputModeUIOnly());
 		PlayerController->bShowMouseCursor = true;
 		return;
@@ -241,8 +236,10 @@ bool UInventoryComponent::IsItemEquiped(FItemData _Item)
 {
 	if (_Item.ItemType == Armor)
 	{
+		// Check that the map has the sent key.
 		if (EquipedEquipment.Contains(_Item.ArmorData.ArmorSlot))
 		{
+			// Check if the data matches.
 			if (*EquipedEquipment.Find(_Item.ArmorData.ArmorSlot) == _Item)
 			{
 				return(true);
@@ -251,8 +248,10 @@ bool UInventoryComponent::IsItemEquiped(FItemData _Item)
 		return(false);
 	}
 
+	// Check that the map has the sent key.
 	if (EquipedEquipment.Contains(_Item.WeaponData.EquipedSlot))
 	{
+		// Check if the data matches.
 		if (*EquipedEquipment.Find(_Item.WeaponData.EquipedSlot) == _Item )
 		{
 			return(true);
@@ -268,29 +267,39 @@ void UInventoryComponent::EquipItem(FItemData _Item)
 	{
 		if (_Item.ItemType == Armor)
 		{
+			// Check that the map has the sent key.
 			if (EquipedEquipment.Contains(_Item.ArmorData.ArmorSlot))
 			{
+				// If this item is equiped unequip it. 
 				if (IsItemEquiped(_Item))
 				{
 					UnEquipItem(_Item);
 					return;
 				}
 
+				// Replace Item in map with the new item. 
 				EquipedEquipment.Emplace(_Item.ArmorData.ArmorSlot, _Item);
+				// Update the Display slot.
 				EquipmentScreen->UpdateSlot(_Item.ArmorData.ArmorSlot, _Item);
+				// Update players mesh.
 				PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, _Item.ArmorData.ArmorMesh);
 				return;
 			}
 		}
+		// Check that the map has the sent key.
 		if (EquipedEquipment.Contains(_Item.WeaponData.EquipedSlot))
 		{
 			if (IsItemEquiped(_Item))
 			{
+				// If this item is equiped unequip it. 
 				UnEquipItem(_Item);
 				return;
 			}
+			// Replace Item in map with the new item. 
 			EquipedEquipment.Emplace(_Item.WeaponData.EquipedSlot, _Item);
+			// Update the Display slot.
 			EquipmentScreen->UpdateSlot(_Item.WeaponData.EquipedSlot, _Item);
+			// Update players mesh.
 			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, _Item.WeaponData.WeaponMesh);
 		}
 	}
@@ -304,14 +313,20 @@ void UInventoryComponent::UnEquipItem(FItemData _Item)
 	{
 		if (_Item.ItemType == Armor)
 		{
+			// Replace Item in map with nothing.
 			EquipedEquipment.Emplace(_Item.ArmorData.ArmorSlot);
+			// Update the Display slot.
 			EquipmentScreen->UpdateSlot(_Item.ArmorData.ArmorSlot, NullItemData);
+			// Update players mesh.
 			PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, NullItemData.ArmorData.ArmorMesh);
 		}
-		else
+		else // Weapon
 		{
+			// Replace Item in map with nothing.
 			EquipedEquipment.Emplace(_Item.WeaponData.EquipedSlot);
+			// Update the Display slot.
 			EquipmentScreen->UpdateSlot(_Item.WeaponData.EquipedSlot, NullItemData);
+			// Update players mesh.
 			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, NullItemData.WeaponData.WeaponMesh);
 		}
 	}

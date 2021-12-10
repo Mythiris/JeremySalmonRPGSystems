@@ -10,6 +10,7 @@ void UInventoryScreen::NativeConstruct()
 	Super::NativeConstruct();
 }
 
+// Initalse the Inventoy panel with its name and data.
 void UInventoryScreen::InitWid(UInventoryComponent* _InventoyRef)
 {
 	InventoyRef = _InventoyRef;

@@ -11,6 +11,7 @@ void UInventoryPanel::NativeConstruct()
 	Super::NativeConstruct();
 }
 
+// Set Default values and display them.
 void UInventoryPanel::InitWidget(FString _PanelName, UInventoryComponent* _InventoyRef, TEnumAsByte<EItemType> _DisplayType)
 {
 	PanelName->SetText(FText::FromString(_PanelName));
@@ -19,12 +20,14 @@ void UInventoryPanel::InitWidget(FString _PanelName, UInventoryComponent* _Inven
 	UpdateDisplay();
 }
 
+// Load data to the InventoySlot and add it to the display grid.
 void UInventoryPanel::UpdateDisplay()
 {
 	int Row = 0, Col = 0;
 
 	if (InventoyRef)
 	{
+		// Itterate through the inventory.
 		for (int i = 0; i < InventoyRef->GetInventorySize(); i++)
 		{
 			FItemData Item = InventoyRef->GetInventoryData(i).ItemData;
@@ -39,6 +42,7 @@ void UInventoryPanel::UpdateDisplay()
 					DisplayGrid->AddChildToUniformGrid(InventoySlot[InventoySlot.Num() - 1], Row, Col);
 					Col++;
 
+					// Addjust location in the uniform grid.
 					if (Col == 4)
 					{
 						Col = 0;

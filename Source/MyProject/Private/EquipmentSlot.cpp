@@ -121,6 +121,7 @@ void UEquipmentSlot::SlotButtonOnClick()
 
 		if (ItemData.ItemType == Weapon)
 		{
+			// Set weapon to the correct slot.
 			ItemData.WeaponData.EquipedSlot = SlotType;
 		}
 

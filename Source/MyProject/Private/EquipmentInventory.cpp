@@ -26,6 +26,7 @@ void UEquipmentInventory::NativeConstruct()
 
 	if (Close_Bttn)
 	{
+		// Bind function to this button.
 		Close_Bttn->OnClicked.AddDynamic(this, &UEquipmentInventory::CloseWidget);
 	}
 	
@@ -37,15 +38,18 @@ void UEquipmentInventory::InitWid(UInventoryComponent* _InventoryRef, TEnumAsByt
 
 	Row = 0;
 	Col = 0;
+
 	InventoryRef = _InventoryRef;
 	SlotType = EquiptmentSlot;
 
+	// Itterate through the inventory.
 	for (int i = 0; i < InventoryRef->GetInventorySize(); i++)
 	{
 		FItemData ItemData = InventoryRef->GetInventoryData(i).ItemData;
 
 		if (ItemData.ItemType == EItemType::Armor)
 		{		
+			// If this Item's slot matches the given one, add to the display.
 			if (ItemData.ArmorData.ArmorSlot == EquiptmentSlot)
 			{
 				PopulateWidget(ItemData);
@@ -53,6 +57,7 @@ void UEquipmentInventory::InitWid(UInventoryComponent* _InventoryRef, TEnumAsByt
 		}
 		else if (ItemData.ItemType == EItemType::Weapon)
 		{
+			// Used to bind the weapon type to the correct slot.
 			switch (EquiptmentSlot)
 			{
 			case LeftHand:
@@ -96,11 +101,13 @@ void UEquipmentInventory::InitWid(UInventoryComponent* _InventoryRef, TEnumAsByt
 	}
 }
 
+// Remove this widget from parent.
 void UEquipmentInventory::CloseWidget()
 {
 	RemoveFromParent();
 }
 
+// Create an EquipmentSlot with data and add it to the dispaly grid.
 void UEquipmentInventory::PopulateWidget(FItemData _ItemData)
 {
 	if (EquipmentSlots_Ref != NULL, GetWorld())

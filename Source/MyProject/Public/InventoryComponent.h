@@ -39,40 +39,42 @@ public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	
 	bool AddToInventory(FInventoryData ItemToAdd);
 	bool AddToInventory(FItemData ItemData, int Quantity);
+
+	UFUNCTION()
 	void RemoveFromInventory(FInventoryData ItemToRemove);
 
+	UFUNCTION()
 	void AddToStack(FInventoryData ItemToAdd, int Index);
+	UFUNCTION()
 	void CreateStack(FInventoryData ItemToAdd);
 
-
+	UFUNCTION()
 	bool IsInInventory(FInventoryData Item);
 
 	UFUNCTION(BlueprintCallable)
 	void ToggleInventory();
-
+	UFUNCTION()
 	void SetInventorySize(int InvnSize);
+	UFUNCTION()
 	int GetInventorySize() const;
 
 	FInventoryData GetInventoryData(int Index);
 
 
-
-	//Equipement
+	////////// Equipment Functions ////////////////
 
 	UFUNCTION(BlueprintCallable)
 		void ToggleEquipmet();
 
 	UFUNCTION()
-	bool IsItemEquiped(FItemData _Item);
+		bool IsItemEquiped(FItemData _Item);
 	UFUNCTION()
-	void EquipItem(FItemData _Item);
+		void EquipItem(FItemData _Item);
 	UFUNCTION()
-	void UnEquipItem(FItemData _Item);
+		void UnEquipItem(FItemData _Item);
 
 
 protected:
@@ -81,15 +83,27 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
+		FItemData NullItemData;
+
+	UPROPERTY()
+		FInventoryData NullItem;
+
+	UPROPERTY(EditDefaultsOnly)
+		UTexture2D* NullThumbnail;
+
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
+		int NumberOfSlots;
+
+	UPROPERTY()
 	TArray<FInventoryData> Inventory;
 
 	//Equiped Items
 	UPROPERTY()
 		TMap<TEnumAsByte<EEquipmentSlots>, FItemData> EquipedEquipment;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
-		int NumberOfSlots;
 
+	////////// Widgets ////////////////
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 		TSubclassOf<class UEquipmentScreen> EquipmentScreen_Ref;
 
@@ -104,15 +118,7 @@ protected:
 	UPROPERTY()
 		class UInventoryScreen* InventoryScreen;
 
-	UPROPERTY(EditDefaultsOnly)
-		UTexture2D* NullThumbnail;
-
-	UPROPERTY()
-	FItemData NullItemData;
-
-	UPROPERTY()
-	FInventoryData NullItem;
-
+	////////// Player + Controller ////////////////
 	UPROPERTY()
 	class APlayerController* PlayerController;
 

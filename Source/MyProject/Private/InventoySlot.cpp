@@ -6,10 +6,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "ToolTip.h"
 
+// Called when mouse enters this widget. Creates a tool tip displaying the stored data.
 void UInventoySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 
+	// If player controler does not exist, create it.
 	if (!PlayerControler)
 	{
 		PlayerControler = Cast<APlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
@@ -31,6 +33,7 @@ void UInventoySlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPoint
 	}
 }
 
+// Called when the mouse leaves this widget, Removes toll tip from view.
 void UInventoySlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
@@ -45,6 +48,7 @@ void UInventoySlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	}
 }
 
+// Set the data for this slot.
 void UInventoySlot::InitSlot(FItemData _Item)
 {
 	ItemData = _Item;
