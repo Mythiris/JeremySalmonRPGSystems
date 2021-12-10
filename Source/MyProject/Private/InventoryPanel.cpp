@@ -2,73 +2,51 @@
 
 
 #include "InventoryPanel.h"
-#include "Components/GridPanel.h"
-#include "GameFramework/InputSettings.h"
+#include "Components/UniformGridPanel.h"
+#include "Components/TextBlock.h"
+#include "InventoySlot.h"
 
-// Called when the widget is created.
 void UInventoryPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
-
-	// Allow this wiget to take inputs.
-	this->bIsFocusable = true;
 }
 
-
-void UInventoryPanel::InitWidget(UInventoryComponent* _Inventory)
+void UInventoryPanel::InitWidget(FString _PanelName, UInventoryComponent* _InventoyRef, TEnumAsByte<EItemType> _DisplayType)
 {
-	Inventory = _Inventory;
-
-	InventoryGrid->SetColumnFill(8, 0.0f);
-	InventoryGrid->SetRowFill(3, 0.0f);
-
-	InventorySlot.Init(NULL, Inventory->GetInventorySize());
-
-	if (InvenSlot_ref != NULL && GetWorld())
-	{
-		int row;
-		int col;
-
-		for (int i = 0; i < Inventory->GetInventorySize(); i++)
-		{
-			col = i % 8;
-			row = i / 8;
-			
-			InventorySlot[i] = CreateWidget<UInventorySlot>(GetWorld(), InvenSlot_ref);
-			InventorySlot[i]->SetData(Inventory->GetInventoryData(i));
-			
-			InventoryGrid->AddChildToGrid(InventorySlot[i], row, col);
-				
-		}
-	}
+	PanelName->SetText(FText::FromString(_PanelName));
+	InventoyRef = _InventoyRef;
+	DisplayType = _DisplayType;
+	UpdateDisplay();
 }
 
-void UInventoryPanel::Refresh()
+void UInventoryPanel::UpdateDisplay()
 {
-	if (Inventory != NULL)
+	int Row = 0, Col = 0;
+
+	if (InventoyRef)
 	{
-		int SlotIndex = 0;
-		for (int i = 0; i < Inventory->GetInventorySize(); i++)
+		for (int i = 0; i < InventoyRef->GetInventorySize(); i++)
 		{
-			InventorySlot[SlotIndex]->SetData(Inventory->GetInventoryData(i));
-			SlotIndex++;
+			FItemData Item = InventoyRef->GetInventoryData(i).ItemData;
+
+			if (Item.ItemType == DisplayType)
+			{
+				if (InventoySlot_Ref != NULL && GetWorld())
+				{
+					// Create the inventorySlot widget.
+					InventoySlot.Add(CreateWidget<UInventoySlot>(GetWorld(), InventoySlot_Ref));
+					InventoySlot[InventoySlot.Num() - 1]->InitSlot(Item);
+					DisplayGrid->AddChildToUniformGrid(InventoySlot[InventoySlot.Num() - 1], Row, Col);
+					Col++;
+
+					if (Col == 4)
+					{
+						Col = 0;
+						Row++;
+					}
+
+				}
+			}
 		}
 	}
-}
-
-FReply UInventoryPanel::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
-{
-	TArray<FInputActionKeyMapping> ActionMaping;
-	UInputSettings::GetInputSettings()->GetActionMappingByName("ToggleInventory", ActionMaping);
-
-	for (auto Action : ActionMaping)
-	{
-		if (Action.Key == InKeyEvent.GetKey())
-		{
-			Inventory->ToggleInventory();
-			return FReply::Handled();
-		}
-	}
-
-	return FReply::Handled();
 }

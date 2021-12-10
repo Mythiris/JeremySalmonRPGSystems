@@ -2,10 +2,10 @@
 
 
 #include "InventoryComponent.h"
-#include "InventoryPanel.h"
 #include "EquipmentScreen.h"
 #include "Kismet/GameplayStatics.h"
 #include "MyProjectCharacter.h"
+#include "InventoryScreen.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -27,13 +27,21 @@ void UInventoryComponent::BeginPlay()
 	
 	Inventory.Init(NullItem, NumberOfSlots);
 
-	if (EquipmentScreen_Ref != NULL && GetWorld())
+	if (GetWorld())
 	{
-		// Create the EquipmentScreen widget for later use.
-		EquipmentScreen = CreateWidget<UEquipmentScreen>(GetWorld(), EquipmentScreen_Ref);
-		EquipmentScreen->SetOwnersInventory(this);
+		if (EquipmentScreen_Ref)
+		{
+			// Create the EquipmentScreen widget for later use.
+			EquipmentScreen = CreateWidget<UEquipmentScreen>(GetWorld(), EquipmentScreen_Ref);
+			EquipmentScreen->SetOwnersInventory(this);
+		}
+
+		if (InventoryScreen_Ref)
+		{
+			InventoryScreen = CreateWidget<UInventoryScreen>(GetWorld(), InventoryScreen_Ref);
+			 
+		}
 	}
-	
 	// Get the Players Controller.
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	PlayerCharacter  = Cast<AMyProjectCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
@@ -149,24 +157,24 @@ void UInventoryComponent::RemoveFromInventory(FInventoryData ItemToRemove)
 
 void UInventoryComponent::ToggleInventory()
 {
-//	if (InventoryWindow != NULL && PlayerController)
-//	{
-//		if (InventoryWindow->IsInViewport())
-//		{
-//			InventoryWindow->RemoveFromViewport();
-//			PlayerController->SetInputMode(FInputModeGameOnly());
-//			PlayerController->bShowMouseCursor = false;
-//
-//			return;
-//		}
-//
-//		InventoryWindow->Refresh();
-//		InventoryWindow->AddToViewport();
-//
-//		PlayerController->SetInputMode(FInputModeUIOnly());
-//		PlayerController->bShowMouseCursor = true;
-//		return;
-//	}
+	if (InventoryScreen && PlayerController)
+	{
+		if (InventoryScreen->IsInViewport())
+		{
+			InventoryScreen->RemoveFromViewport();
+			PlayerController->SetInputMode(FInputModeGameOnly());
+			PlayerController->bShowMouseCursor = false;
+
+			return;
+		}
+
+		InventoryScreen->InitWid(this);
+		InventoryScreen->AddToViewport();
+
+		PlayerController->SetInputMode(FInputModeUIOnly());
+		PlayerController->bShowMouseCursor = true;
+		return;
+	}
 
 }
 

@@ -97,6 +97,13 @@ protected:
 	UPROPERTY()
 		class UEquipmentScreen* EquipmentScreen;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+		TSubclassOf<class UInventoryScreen> InventoryScreen_Ref;
+	
+	// Variable to hold the widget After Creating it.
+	UPROPERTY()
+		class UInventoryScreen* InventoryScreen;
+
 	UPROPERTY(EditDefaultsOnly)
 		UTexture2D* NullThumbnail;
 

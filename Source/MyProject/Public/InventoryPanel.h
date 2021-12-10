@@ -5,49 +5,41 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "InventoryComponent.h"
-#include "InventorySlot.h"
 #include "InventoryPanel.generated.h"
 
 /**
  * 
  */
-
 UCLASS()
 class MYPROJECT_API UInventoryPanel : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	
+
 	virtual void NativeConstruct() override;
-	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
-	UFUNCTION(BlueprintCallable)
-	void InitWidget(UInventoryComponent* Inventory);
-
-	void Refresh();
-
-	//UFUNCTION(BlueprintCallable)
-	//void ChangeDisplayType(TEnumAsByte<ItemType> _DisplayType);
+	void InitWidget(FString _PanelName, UInventoryComponent* _InventoyRef, TEnumAsByte<EItemType> _DisplayType);
+	void UpdateDisplay();
 
 protected:
-	 
-	UPROPERTY()
-	class UInventoryComponent* Inventory;
-
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	//	TEnumAsByte<ItemType> DisplayType;
 
 	UPROPERTY(meta = (BindWidget))
-	class UGridPanel* InventoryGrid;
+		class UUniformGridPanel* DisplayGrid;
 
 	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* InventoryName;
-	
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		TSubclassOf<class UInventorySlot> InvenSlot_ref;
+		class UTextBlock* PanelName;
 
 	UPROPERTY()
-		TArray<UInventorySlot*> InventorySlot;
+	UInventoryComponent* InventoyRef;
+
+	UPROPERTY()
+	TEnumAsByte<EItemType> DisplayType;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UInventoySlot> InventoySlot_Ref;
+
+	// Variable to hold the widget After Creating it.
+	UPROPERTY()
+		TArray<class UInventoySlot*> InventoySlot;
 };
