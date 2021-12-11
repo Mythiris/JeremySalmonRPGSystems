@@ -151,6 +151,13 @@ void UInventoryComponent::ToggleInventory()
 {
 	if (InventoryScreen && PlayerController)
 	{
+
+		if (EquipmentScreen->IsInViewport())
+		{
+			// Remove the widget from the screen and set input back to the game.
+			EquipmentScreen->RemoveFromViewport();
+		}
+
 		// If Inventory is in viewport Remove it.
 		if (InventoryScreen->IsInViewport())
 		{
@@ -206,6 +213,12 @@ void UInventoryComponent::ToggleEquipmet()
 {
 	if (EquipmentScreen != NULL && PlayerController)
 	{
+		// If Inventory is in viewport Remove it.
+		if (InventoryScreen->IsInViewport())
+		{
+			InventoryScreen->RemoveFromViewport();
+		}
+
 		if (EquipmentScreen->IsInViewport())
 		{
 			// Remove the widget from the screen and set input back to the game.
@@ -282,7 +295,7 @@ void UInventoryComponent::EquipItem(FItemData _Item)
 				// Update the Display slot.
 				EquipmentScreen->UpdateSlot(_Item.ArmorData.ArmorSlot, _Item);
 				// Update players mesh.
-				PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, _Item.ArmorData.ArmorMesh);
+				PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, _Item);
 				return;
 			}
 		}
@@ -300,7 +313,7 @@ void UInventoryComponent::EquipItem(FItemData _Item)
 			// Update the Display slot.
 			EquipmentScreen->UpdateSlot(_Item.WeaponData.EquipedSlot, _Item);
 			// Update players mesh.
-			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, _Item.WeaponData.WeaponMesh);
+			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, _Item);
 		}
 	}
 }
@@ -318,7 +331,7 @@ void UInventoryComponent::UnEquipItem(FItemData _Item)
 			// Update the Display slot.
 			EquipmentScreen->UpdateSlot(_Item.ArmorData.ArmorSlot, NullItemData);
 			// Update players mesh.
-			PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, NullItemData.ArmorData.ArmorMesh);
+			PlayerCharacter->UpdateEquipmentMesh(_Item.ArmorData.ArmorSlot, NullItemData);
 		}
 		else // Weapon
 		{
@@ -327,7 +340,7 @@ void UInventoryComponent::UnEquipItem(FItemData _Item)
 			// Update the Display slot.
 			EquipmentScreen->UpdateSlot(_Item.WeaponData.EquipedSlot, NullItemData);
 			// Update players mesh.
-			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, NullItemData.WeaponData.WeaponMesh);
+			PlayerCharacter->UpdateEquipmentMesh(_Item.WeaponData.EquipedSlot, NullItemData);
 		}
 	}
 

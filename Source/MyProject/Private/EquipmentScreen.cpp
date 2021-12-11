@@ -89,7 +89,7 @@ FReply UEquipmentScreen::NativeOnKeyDown(const FGeometry& InGeometry, const FKey
 {
 	// Find the ActionMapping key. 
 	TArray<FInputActionKeyMapping> ActionMaping;
-	UInputSettings::GetInputSettings()->GetActionMappingByName("ToggleInventory", ActionMaping);
+	UInputSettings::GetInputSettings()->GetActionMappingByName("ToggleEquipment", ActionMaping);
 
 	// Check if the key pressed is the action key.
 	for (auto Action : ActionMaping)

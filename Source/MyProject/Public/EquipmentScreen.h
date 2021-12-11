@@ -23,33 +23,33 @@ public:
 
 	void UpdateSlot(EEquipmentSlots _ItemSlot, FItemData _Item);
 
-private:
+protected:
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* HeadSlot;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* BodySlot;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* ArmSlot;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* LegSlot;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* FeetSlot;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* LeftHand;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* RightHand;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 		class UEquipmentSlot* Ranged;
 
 	UPROPERTY()
 	class UInventoryComponent* OwnersInventory;
-	
+
 };

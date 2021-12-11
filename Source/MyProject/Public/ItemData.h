@@ -49,12 +49,16 @@ struct FArmorData
 		int ArmorValue;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UStaticMesh* ArmorMesh;
+		class UStaticMesh* PrimaryArmorMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMesh* SecondaryArmorMesh;
 
 	FArmorData()
 	{
 		ArmorValue = 1;
-		ArmorMesh = nullptr;
+		PrimaryArmorMesh = nullptr;
+		SecondaryArmorMesh = nullptr;
 	}
 
 };

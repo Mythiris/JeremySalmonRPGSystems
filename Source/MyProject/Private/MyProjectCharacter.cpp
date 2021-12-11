@@ -52,8 +52,7 @@ AMyProjectCharacter::AMyProjectCharacter()
 
 	ChestMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ChestMesh"));
 
-	LeftLegMesh   = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLegMesh"));
-	RightLegMesh   = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLegMesh"));
+	LegMesh   = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LegMesh"));
 
 	LeftFootMesh  = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftFootMesh"));
 	RightFootMesh  = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightFootMesh"));
@@ -78,8 +77,7 @@ void AMyProjectCharacter::BeginPlay()
 
 	ChestMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("spine_03Socket"));
 
-	LeftLegMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("calf_lSocket"));
-	RightLegMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("calf_rSocket"));
+	LegMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("pelvisSocket"));
 
 	LeftFootMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("ik_foot_lSocket"));
 	RightFootMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("ik_foot_rSocket"));
@@ -181,43 +179,42 @@ void AMyProjectCharacter::MoveRight(float Value)
 	}
 }
 
-void AMyProjectCharacter::UpdateEquipmentMesh(EEquipmentSlots Slot, UStaticMesh* ItemMesh)
+void AMyProjectCharacter::UpdateEquipmentMesh(EEquipmentSlots Slot, FItemData _Item)
 {
 	switch (Slot)
 	{
 	case Head:
-		HelmMesh->SetStaticMesh(ItemMesh);
+		HelmMesh->SetStaticMesh(_Item.ArmorData.PrimaryArmorMesh);
 		break;
 
 	case Body:
-		ChestMesh->SetStaticMesh(ItemMesh);
+		ChestMesh->SetStaticMesh(_Item.ArmorData.PrimaryArmorMesh);
 		break;
 
 	case Arms:
-		RightArmMesh->SetStaticMesh(ItemMesh);
-		LeftArmMesh->SetStaticMesh(ItemMesh);
+		RightArmMesh->SetStaticMesh(_Item.ArmorData.PrimaryArmorMesh);
+		LeftArmMesh->SetStaticMesh(_Item.ArmorData.SecondaryArmorMesh);
 		break;
 
 	case Legs:
-		LeftLegMesh->SetStaticMesh(ItemMesh);
-		RightLegMesh->SetStaticMesh(ItemMesh);
+		LegMesh->SetStaticMesh(_Item.ArmorData.PrimaryArmorMesh);
 		break;
 
 	case Feet:
-		LeftFootMesh->SetStaticMesh(ItemMesh);
-		RightFootMesh->SetStaticMesh(ItemMesh);
+		LeftFootMesh->SetStaticMesh(_Item.ArmorData.PrimaryArmorMesh);
+		RightFootMesh->SetStaticMesh(_Item.ArmorData.SecondaryArmorMesh);
 		break;
 
 	case LeftHand:
-		LeftHandMesh->SetStaticMesh(ItemMesh);
+		LeftHandMesh->SetStaticMesh(_Item.WeaponData.WeaponMesh);
 		break;
 
 	case RightHand:
-		RightHandMesh->SetStaticMesh(ItemMesh);
+		RightHandMesh->SetStaticMesh(_Item.WeaponData.WeaponMesh);
 		break;
 
 	case Ranged:
-		RangedMesh->SetStaticMesh(ItemMesh);
+		RangedMesh->SetStaticMesh(_Item.WeaponData.WeaponMesh);
 		break;
 
 	default:

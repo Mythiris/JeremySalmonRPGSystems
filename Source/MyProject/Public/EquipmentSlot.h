@@ -42,7 +42,6 @@ public:
 	UFUNCTION()
 	void SetIsWindowSlot(bool _IsWindowSlot);
 
-
 private:
 
 	UPROPERTY(meta = (BindWidget))
