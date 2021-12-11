@@ -91,7 +91,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		UTexture2D* NullThumbnail;
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Inventory")
+	UPROPERTY(EditAnywhere)
 		int NumberOfSlots;
 
 	UPROPERTY()
@@ -104,14 +104,14 @@ protected:
 
 	////////// Widgets ////////////////
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		TSubclassOf<class UEquipmentScreen> EquipmentScreen_Ref;
 
 	// Variable to hold the widget After Creating it.
 	UPROPERTY()
 		class UEquipmentScreen* EquipmentScreen;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		TSubclassOf<class UInventoryScreen> InventoryScreen_Ref;
 	
 	// Variable to hold the widget After Creating it.

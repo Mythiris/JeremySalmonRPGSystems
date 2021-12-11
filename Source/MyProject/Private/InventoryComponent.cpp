@@ -15,7 +15,21 @@ UInventoryComponent::UInventoryComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// Set default amount of slots to 8.
-	NumberOfSlots = 8;
+	NumberOfSlots = 64;
+
+	static ConstructorHelpers::FClassFinder<UInventoryScreen> FindInventoryScreen_Ref (TEXT("/Game/UserInterface/Inventory/InventoyScreen_Wid"));
+
+	if (FindInventoryScreen_Ref.Class != nullptr)
+	{
+		InventoryScreen_Ref = FindInventoryScreen_Ref.Class;
+	}
+	
+	static ConstructorHelpers::FClassFinder<UEquipmentScreen> FindEquipmentScreen_Ref(TEXT("/Game/UserInterface/Equipment/EquipmentScreen_Wid"));
+
+	if (FindEquipmentScreen_Ref.Class != nullptr)
+	{
+		EquipmentScreen_Ref = FindEquipmentScreen_Ref.Class;
+	}
 }
 
 

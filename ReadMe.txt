@@ -9,9 +9,6 @@ Press P to open Equipment + close it.
 
 
 
-
-
-
 Armor mesh from https://www.cgtrader.com/items/1949641/download-page
 
 sword mesh from https://www.cgtrader.com/items/1959888/download-page
